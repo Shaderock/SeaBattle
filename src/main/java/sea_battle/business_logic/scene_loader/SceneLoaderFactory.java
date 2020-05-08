@@ -4,7 +4,7 @@ import sea_battle.business_logic.SceneType;
 
 public class SceneLoaderFactory
 {
-    public static SceneLoader build(SceneType sceneType)
+    public static ISceneLoader build(SceneType sceneType)
     {
         switch (sceneType)
         {
@@ -12,6 +12,8 @@ public class SceneLoaderFactory
                 return new SettingsSceneLoader();
             case GAME_TYPE_CHOICE:
                 return new GameChoiceLoader();
+            case SHIPS_PLACING_PVP:
+                return new ShipsPlacingLoader();
             default:
                 return new MainSceneLoader();
         }

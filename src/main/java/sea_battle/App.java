@@ -13,6 +13,8 @@ public class App extends Application
     {
         Context.setStage(primaryStage);
         primaryStage.setTitle("Sea Battle");
+        primaryStage.setResizable(false);
+        primaryStage.sizeToScene();
         SceneChanger sceneChanger = SceneChangerFactory.build();
         sceneChanger.setScene(SceneType.MAIN);
     }

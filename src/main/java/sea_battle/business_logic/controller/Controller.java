@@ -1,4 +1,4 @@
-package sea_battle.business_logic;
+package sea_battle.business_logic.controller;
 
 import javafx.fxml.Initializable;
 import sea_battle.business_logic.scene_changer.SceneChanger;
@@ -7,7 +7,7 @@ import sea_battle.business_logic.scene_changer.SceneChangerFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable
+public class Controller implements Initializable, IController
 {
     private SceneChanger sceneChanger;
 
@@ -21,4 +21,5 @@ public class Controller implements Initializable
     {
         return sceneChanger;
     }
+
 }

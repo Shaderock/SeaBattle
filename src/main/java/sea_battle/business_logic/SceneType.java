@@ -5,5 +5,6 @@ public enum SceneType
     MAIN,
     SETTINGS,
     GAME_TYPE_CHOICE,
-    GAME
+    SHIPS_PLACING_PVP,
+    SHIPS_PLACING_PVE
 }
