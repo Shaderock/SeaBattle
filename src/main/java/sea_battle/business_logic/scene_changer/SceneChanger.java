@@ -11,6 +11,7 @@ import sea_battle.models.Constants;
 public class SceneChanger implements ISceneChanger
 {
     private final Stage primaryStage;
+    private Parent root;
 
     public SceneChanger(Stage primaryStage)
     {
@@ -20,9 +21,14 @@ public class SceneChanger implements ISceneChanger
     public void setScene(SceneType sceneType) throws Exception
     {
         ISceneLoader sceneLoader = SceneLoaderFactory.build(sceneType);
-        Parent root = sceneLoader.loadScene();
+        root = sceneLoader.loadScene();
 
         primaryStage.setScene(new Scene(root, Constants.SCENE_INIT_WIDTH, Constants.SCENE_INIT_HEIGHT));
         primaryStage.show();
+    }
+
+    public Parent getRoot()
+    {
+        return root;
     }
 }

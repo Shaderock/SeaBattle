@@ -1,25 +1,26 @@
 package sea_battle.business_logic.controller;
 
-import javafx.fxml.Initializable;
-import sea_battle.business_logic.scene_changer.SceneChanger;
-import sea_battle.business_logic.scene_changer.SceneChangerFactory;
+import javafx.scene.Parent;
+import sea_battle.business_logic.scene_changer.ISceneChanger;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class Controller implements Initializable, IController
+public class Controller implements IController
 {
-    private SceneChanger sceneChanger;
+    private ISceneChanger sceneChanger;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        sceneChanger = SceneChangerFactory.build();
-    }
-
-    public SceneChanger getSceneChanger()
+    public ISceneChanger getSceneChanger()
     {
         return sceneChanger;
     }
 
+    @Override
+    public Parent getRoot()
+    {
+        return sceneChanger.getRoot();
+    }
+
+    protected void setSceneChanger(ISceneChanger sceneChanger)
+    {
+        this.sceneChanger = sceneChanger;
+    }
 }

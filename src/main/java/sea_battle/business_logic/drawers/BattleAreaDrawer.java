@@ -11,22 +11,28 @@ public class BattleAreaDrawer implements IDrawer
     @Override
     public Node draw()
     {
-        Group group = new javafx.scene.Group();
+        Group group = new Group();
+
         int amountOfTiles = Constants.TILES_AMOUNT;
+
         for (int x = 0; x < amountOfTiles; x++)
         {
             for (int y = 0; y < amountOfTiles; y++)
             {
-                Rectangle tile = new Rectangle((double) x * Constants.SCENE_INIT_HEIGHT / 15,
-                        (double) y * Constants.SCENE_INIT_HEIGHT / 15,
-                        (double) Constants.SCENE_INIT_HEIGHT / 15,
-                        (double) Constants.SCENE_INIT_HEIGHT / 15);
-                tile.setFill(Color.WHITESMOKE);
-                tile.setStroke(Color.AQUAMARINE);
+                TileDrawer tileDrawer = (TileDrawer) DrawerFactory.build(DrawerType.TILE);
+
+                tileDrawer.setFillColor(Color.WHITESMOKE);
+                tileDrawer.setStrokeColor(Color.DARKGRAY);
+
+                Rectangle tile = (Rectangle) tileDrawer.draw();
+
+                tile.relocate((double) x * Constants.TILE_SIZE,
+                        y * (double) Constants.TILE_SIZE);
 
                 group.getChildren().add(tile);
             }
         }
+
         return group;
     }
 }

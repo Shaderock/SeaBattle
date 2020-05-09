@@ -4,8 +4,14 @@ import sea_battle.Context;
 
 public class SceneChangerFactory
 {
-    public static SceneChanger build()
+    public static ISceneChanger build(SceneChangerType sceneChangerType)
     {
-        return new SceneChanger(Context.getStage());
+        switch (sceneChangerType)
+        {
+            case INITIALIZING:
+                return new InitializingSceneChanger(new SceneChanger(Context.getStage()));
+            default:
+                return new SceneChanger(Context.getStage());
+        }
     }
 }

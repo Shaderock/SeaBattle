@@ -1,8 +1,11 @@
 package sea_battle.business_logic.controller;
 
-import sea_battle.business_logic.scene_changer.SceneChanger;
+import javafx.scene.Parent;
+import sea_battle.business_logic.scene_changer.ISceneChanger;
 
 public interface IController
 {
-    SceneChanger getSceneChanger();
+    ISceneChanger getSceneChanger();
+
+    Parent getRoot();
 }
