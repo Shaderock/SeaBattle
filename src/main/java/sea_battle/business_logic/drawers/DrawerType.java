@@ -4,8 +4,5 @@ public enum DrawerType
 {
     BATTLE_AREA,
     HOME_BUTTON,
-    SHIP,
-    TILE,
-    SHIPS_TO_PLACE,
-    BUTTON
+    SHIP, TILE, BUTTON
 }

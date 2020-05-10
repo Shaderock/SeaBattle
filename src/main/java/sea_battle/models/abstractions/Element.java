@@ -1,23 +1,12 @@
 package sea_battle.models.abstractions;
 
-public class Element implements Focusable
+public interface Element
+        extends HighLightable
 {
-    private boolean isFocused;
+    void onHighLight();
 
     @Override
-    public void onFocus()
-    {
-        isFocused = true;
-    }
+    void onUnHighLight();
 
-    @Override
-    public void onUnFocus()
-    {
-        isFocused = false;
-    }
-
-    public boolean isFocused()
-    {
-        return isFocused;
-    }
+    boolean isHighLighted();
 }

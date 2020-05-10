@@ -2,8 +2,8 @@ package sea_battle.business_logic.drawers;
 
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import sea_battle.models.Constants;
+import sea_battle.models.Tile;
 
 public class TileDrawer implements IDrawer
 {
@@ -18,7 +18,7 @@ public class TileDrawer implements IDrawer
             throw new RuntimeException("Fill color and stroke colors should be given");
         }
 
-        Rectangle tile = new Rectangle(Constants.TILE_SIZE, Constants.TILE_SIZE);
+        Tile tile = new Tile(Constants.TILE_SIZE, Constants.TILE_SIZE);
 
         tile.setFill(fillColor);
         tile.setStroke(strokeColor);

@@ -15,8 +15,6 @@ public class DrawerFactory
                 return new ShipDrawer();
             case TILE:
                 return new TileDrawer();
-            case SHIPS_TO_PLACE:
-                return new ShipsToPlaceDrawer();
             case BUTTON:
                 return new ButtonDrawer();
             default:

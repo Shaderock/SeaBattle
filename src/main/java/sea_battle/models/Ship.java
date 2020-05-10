@@ -7,43 +7,36 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sea_battle.models.abstractions.Accessible;
 import sea_battle.models.abstractions.Element;
-import sea_battle.models.abstractions.Focusable;
+import sea_battle.models.abstractions.HighLightable;
 
 public class Ship
-        extends Element
-        implements Focusable, Accessible
+        extends Group
+        implements HighLightable, Accessible, Element
 {
-    private final Group shipParts;
     private Paint initColor;
     private double initStrokeWidth;
     private boolean isPlaced = false;
-
-    public Ship(Group shipParts)
-    {
-        this.shipParts = shipParts;
-    }
+    private boolean isHighLighted;
+    private double initX;
+    private double initY;
 
     @Override
-    public void onFocus()
+    public void onHighLight()
     {
-        super.onFocus();
-        Rectangle firstPart = getFirstShipPart();
-        initColor = firstPart.getStroke();
-        initStrokeWidth = firstPart.getStrokeWidth();
-
+        isHighLighted = true;
         modifyStroke(Constants.TILE_SIZE * 0.07, Color.GREEN);
     }
 
     @Override
-    public void onUnFocus()
+    public void onUnHighLight()
     {
-        super.onUnFocus();
+        isHighLighted = false;
         modifyStroke(initStrokeWidth, initColor);
     }
 
     private void modifyStroke(double newWidth, Paint newColor)
     {
-        for (Node shipPart : shipParts.getChildren())
+        for (Node shipPart : getChildren())
         {
             Rectangle part = (Rectangle) shipPart;
             part.setStrokeWidth(newWidth);
@@ -53,38 +46,34 @@ public class Ship
 
     private Rectangle getFirstShipPart()
     {
-        return (Rectangle) shipParts.getChildren().get(0);
+        return (Rectangle) getChildren().get(0);
     }
 
     private Rectangle getLastShipPart()
     {
-        int size = shipParts.getChildren().size();
-        return (Rectangle) shipParts.getChildren().get(size - 1);
+        int size = getChildren().size();
+        return (Rectangle) getChildren().get(size - 1);
     }
 
-    public Group getShipParts()
-    {
-        return shipParts;
-    }
 
     public double getMinX()
     {
-        return shipParts.localToScene(shipParts.getBoundsInLocal()).getMinX();
+        return this.localToScene(this.getBoundsInLocal()).getMinX();
     }
 
     public double getMaxX()
     {
-        return shipParts.localToScene(shipParts.getBoundsInLocal()).getMaxX();
+        return this.localToScene(this.getBoundsInLocal()).getMaxX();
     }
 
     public double getMinY()
     {
-        return shipParts.localToScene(shipParts.getBoundsInLocal()).getMinY();
+        return this.localToScene(this.getBoundsInLocal()).getMinY();
     }
 
     public double getMaxY()
     {
-        return shipParts.localToScene(shipParts.getBoundsInLocal()).getMaxY();
+        return this.localToScene(this.getBoundsInLocal()).getMaxY();
     }
 
     public boolean isPlaced()
@@ -95,5 +84,36 @@ public class Ship
     public void setPlaced(boolean placed)
     {
         isPlaced = placed;
+    }
+
+    public void relocateOnInitPos()
+    {
+        relocate(initX, initY);
+    }
+
+    @Override
+    public boolean isHighLighted()
+    {
+        return isHighLighted;
+    }
+
+    public void setInitColor(Paint initColor)
+    {
+        this.initColor = initColor;
+    }
+
+    public void setInitStrokeWidth(double initStrokeWidth)
+    {
+        this.initStrokeWidth = initStrokeWidth;
+    }
+
+    public void setInitX(double initX)
+    {
+        this.initX = initX;
+    }
+
+    public void setInitY(double initY)
+    {
+        this.initY = initY;
     }
 }

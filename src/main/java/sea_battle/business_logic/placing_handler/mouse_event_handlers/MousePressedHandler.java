@@ -5,22 +5,21 @@ import sea_battle.business_logic.placing_handler.PlacingHandler;
 import sea_battle.business_logic.utils.ElementHandler;
 import sea_battle.models.Ship;
 
-public class MousePressedHandler implements IMouseEventHandler
+public class MousePressedHandler extends MouseEventHandler
 {
-    private PlacingHandler placingHandler;
-    private MouseEvent mouseEvent;
-
     @Override
     public void handleMouseEvent(PlacingHandler placingHandler, MouseEvent mouseEvent)
     {
-        this.placingHandler = placingHandler;
-        this.mouseEvent = mouseEvent;
+        super.handleMouseEvent(placingHandler, mouseEvent);
 
         Ship ship = findPressedShip();
 
         if (ship != null)
         {
-            ship.onFocus();
+            ship.onHighLight();
+            placingHandler.setFocusedShip(ship);
+            placingHandler.setInitPressedX(mouseEvent.getX());
+            placingHandler.setInitPressedY(mouseEvent.getY());
         }
     }
 

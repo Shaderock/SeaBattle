@@ -6,61 +6,62 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sea_battle.models.abstractions.Accessible;
 import sea_battle.models.abstractions.Element;
-import sea_battle.models.abstractions.Focusable;
+import sea_battle.models.abstractions.HighLightable;
 
 public class Tile
-        extends Element
-        implements Focusable, Accessible
+        extends Rectangle
+        implements HighLightable, Accessible, Element
 {
-    private final Rectangle tile;
     private Paint initColor;
+    private boolean isHighLighted;
 
-    public Tile(Rectangle tile)
+    public Tile(double width, double height)
     {
-        this.tile = tile;
-    }
-
-    public Rectangle getTile()
-    {
-        return tile;
+        super(width, height);
     }
 
     @Override
-    public void onFocus()
+    public void onHighLight()
     {
-        super.onFocus();
-        initColor = tile.getFill();
-        tile.setFill(Color.LIGHTGREEN);
+        isHighLighted = true;
+        initColor = this.getFill();
+        this.setFill(Color.LIGHTGREEN);
     }
 
     @Override
-    public void onUnFocus()
+    public void onUnHighLight()
     {
-        super.onUnFocus();
-        tile.setFill(initColor);
+        isHighLighted = false;
+        this.setFill(initColor);
+    }
+
+    @Override
+    public boolean isHighLighted()
+    {
+        return isHighLighted;
     }
 
     @Override
     public double getMinX()
     {
-        return tile.getX();
+        return this.getX();
     }
 
     @Override
     public double getMaxX()
     {
-        return tile.getX() + Constants.TILE_SIZE;
+        return this.getX() + Constants.TILE_SIZE;
     }
 
     @Override
     public double getMinY()
     {
-        return tile.getY();
+        return this.getY();
     }
 
     @Override
     public double getMaxY()
     {
-        return tile.getY() + Constants.TILE_SIZE;
+        return this.getY() + Constants.TILE_SIZE;
     }
 }

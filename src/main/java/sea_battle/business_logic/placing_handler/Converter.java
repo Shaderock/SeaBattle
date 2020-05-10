@@ -3,7 +3,6 @@ package sea_battle.business_logic.placing_handler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.shape.Rectangle;
 import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.models.Constants;
 import sea_battle.models.Ship;
@@ -20,8 +19,8 @@ public class Converter
 
         for (Node node : battleArea.getChildren())
         {
-            Rectangle rectangle = (Rectangle) node;
-            tiles.add(new Tile(rectangle));
+            Tile tile = (Tile) node;
+            tiles.add(tile);
         }
 
         return tiles;
@@ -29,13 +28,15 @@ public class Converter
 
     public ArrayList<Ship> getShips(Parent root)
     {
-        Group shipsAsGroup = (Group) NodeFinder.findNodeById(root, Constants.SHIPS_ID);
+//        Group shipsAsGroup = (Group) NodeFinder.findNodeById(root, Constants.SHIPS_ID);
         ArrayList<Ship> ships = new ArrayList<>();
 
-        for (Node node : shipsAsGroup.getChildren())
+        for (Node child : root.getChildrenUnmodifiable())
         {
-            Group shipAsGroup = (Group) node;
-            ships.add(new Ship(shipAsGroup));
+            if (child instanceof Ship)
+            {
+                ships.add((Ship) child);
+            }
         }
 
         return ships;

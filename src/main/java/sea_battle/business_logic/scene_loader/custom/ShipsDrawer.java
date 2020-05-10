@@ -1,35 +1,33 @@
-package sea_battle.business_logic.drawers;
+package sea_battle.business_logic.scene_loader.custom;
 
-import javafx.scene.Group;
-import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import sea_battle.business_logic.drawers.ShipDrawer;
 import sea_battle.models.Constants;
+import sea_battle.models.Ship;
 
-public class ShipsToPlaceDrawer implements IDrawer
+public class ShipsDrawer
 {
     private ShipDrawer shipDrawer;
 
-    @Override
-    public Node draw()
+    public void draw(Pane root)
     {
         if (shipDrawer == null)
         {
             throw new RuntimeException("ShipDrawer should be given");
         }
 
-        Group group = new Group();
-
         for (int i = 4; i > 0; i--)
         {
             shipDrawer.setSize(i);
             for (int j = 0; j < 5 - i; j++)
             {
-                Node ship = shipDrawer.draw();
+                Ship ship = (Ship) shipDrawer.draw();
+                ship.setManaged(false);
                 ship.relocate(Constants.TILE_SIZE * j * (i + 1),
                         Constants.TILE_SIZE * (3 - i + 1) * 2);
-                group.getChildren().add(ship);
+                root.getChildren().add(ship);
             }
         }
-        return group;
     }
 
     public void setShipDrawer(ShipDrawer shipDrawer)

@@ -4,8 +4,11 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import sea_battle.business_logic.drawers.*;
+import sea_battle.business_logic.drawers.DrawerFactory;
+import sea_battle.business_logic.drawers.DrawerType;
+import sea_battle.business_logic.drawers.IDrawer;
 import sea_battle.business_logic.position_changer.NodeAligner;
 import sea_battle.business_logic.position_changer.NodeAlignerFactory;
 import sea_battle.business_logic.scene_loader.ISceneLoader;
@@ -16,7 +19,6 @@ public class ShipsPlacingLoader implements ISceneLoader
     private ObservableList<Node> children;
     private Node battleArea;
     private Node homeButton;
-    private Node ships;
 
     @Override
     public Parent loadScene()
@@ -31,6 +33,8 @@ public class ShipsPlacingLoader implements ISceneLoader
         alignNodes(nodeAligner);
         marginNodes(nodeAligner);
 
+        placeNodes();
+
         children = root.getChildren();
         return root;
     }
@@ -42,41 +46,41 @@ public class ShipsPlacingLoader implements ISceneLoader
 
     private void alignNodes(NodeAligner nodeAligner)
     {
-        nodeAligner.alignNode(battleArea, Pos.CENTER_LEFT);
         nodeAligner.alignNode(homeButton, Pos.TOP_LEFT);
-        nodeAligner.alignNode(ships, Pos.CENTER_RIGHT);
     }
 
     private void marginNodes(NodeAligner nodeAligner)
     {
-        nodeAligner.setNodeMargins(battleArea);
         nodeAligner.setNodeMargins(homeButton);
-        nodeAligner.setNodeMargins(ships);
     }
 
+    private void placeNodes()
+    {
+        battleArea.setManaged(false);
+
+        battleArea.relocate(Constants.TILE_SIZE, Constants.TILE_SIZE * 2.5);
+    }
 
     private void createNodes()
     {
         IDrawer battleAreaDrawer = DrawerFactory.build(DrawerType.BATTLE_AREA);
         IDrawer homeButtonDrawer = DrawerFactory.build(DrawerType.HOME_BUTTON);
-        IDrawer shipDrawer = DrawerFactory.build(DrawerType.SHIP);
+//        IDrawer shipDrawer = DrawerFactory.build(DrawerType.SHIP);
 
-        ShipsToPlaceDrawer shipsToPlaceDrawer = (ShipsToPlaceDrawer) DrawerFactory.build(DrawerType.SHIPS_TO_PLACE);
-        shipsToPlaceDrawer.setShipDrawer((ShipDrawer) shipDrawer);
+//        ShipsDrawer shipsDrawer = new ShipsDrawer();
+//        shipsDrawer.setShipDrawer((ShipDrawer) shipDrawer);
 
         battleArea = battleAreaDrawer.draw();
         homeButton = homeButtonDrawer.draw();
-        ships = shipsToPlaceDrawer.draw();
+//        shipsDrawer.draw(root);
 
         homeButton.setId(Constants.HOME_BTN_ID);
         battleArea.setId(Constants.BATTLE_AREA_ID);
-        ships.setId(Constants.SHIPS_ID);
     }
 
-    private void addNodesToRoot(StackPane root)
+    private void addNodesToRoot(Pane root)
     {
         root.getChildren().add(battleArea);
         root.getChildren().add(homeButton);
-        root.getChildren().add(ships);
     }
 }

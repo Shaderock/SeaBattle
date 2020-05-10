@@ -1,10 +1,10 @@
 package sea_battle.business_logic.drawers;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import sea_battle.models.Constants;
+import sea_battle.models.Ship;
+import sea_battle.models.Tile;
 
 public class ShipDrawer implements IDrawer
 {
@@ -22,11 +22,11 @@ public class ShipDrawer implements IDrawer
         tileDrawer.setFillColor(Color.LIGHTGRAY);
         tileDrawer.setStrokeColor(Color.DARKBLUE);
 
-        Group ship = new Group();
+        Ship ship = new Ship();
 
         for (int i = 0; i < size; i++)
         {
-            Rectangle shipPart = (Rectangle) tileDrawer.draw();
+            Tile shipPart = (Tile) tileDrawer.draw();
             shipPart.relocate(Constants.TILE_SIZE * i, 0);
             shipPart.setStrokeWidth(Constants.TILE_SIZE * 0.03);
             ship.getChildren().add(shipPart);
