@@ -9,7 +9,7 @@ public class ShipsDrawer
 {
     private ShipDrawer shipDrawer;
 
-    public void draw(Pane root)
+    public void draw(Pane root, double x, double y)
     {
         if (shipDrawer == null)
         {
@@ -23,8 +23,8 @@ public class ShipsDrawer
             {
                 Ship ship = (Ship) shipDrawer.draw();
                 ship.setManaged(false);
-                ship.relocate(Constants.TILE_SIZE * j * (i + 1),
-                        Constants.TILE_SIZE * (3 - i + 1) * 2);
+                ship.relocate(Constants.TILE_SIZE * j * (i + 1) + x,
+                        Constants.TILE_SIZE * (3 - i + 1) * 2 + y);
                 root.getChildren().add(ship);
             }
         }

@@ -15,8 +15,10 @@ public class MouseDraggedHandler extends MouseEventHandler
 
         if (focusedShip != null)
         {
-            focusedShip.relocate(mouseEvent.getSceneX() - placingHandler.getInitPressedX(),
-                    mouseEvent.getSceneY() - placingHandler.getInitPressedY());
+            focusedShip.setTranslateX(mouseEvent.getSceneX() - placingHandler.getInitPressedX());
+            focusedShip.setTranslateY(mouseEvent.getSceneY() - placingHandler.getInitPressedY());
+//            focusedShip.relocate(mouseEvent.getSceneX() - placingHandler.getInitPressedX(),
+//                    mouseEvent.getSceneY() - placingHandler.getInitPressedY());
         }
     }
 }

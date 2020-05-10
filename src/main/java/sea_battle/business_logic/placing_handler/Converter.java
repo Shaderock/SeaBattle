@@ -21,6 +21,8 @@ public class Converter
         {
             Tile tile = (Tile) node;
             tiles.add(tile);
+
+            System.out.println("tile: x=" + tile.getMinX() + " y=" + tile.getMinY());
         }
 
         return tiles;
@@ -36,6 +38,9 @@ public class Converter
             if (child instanceof Ship)
             {
                 ships.add((Ship) child);
+
+                Ship ship = (Ship) child;
+                System.out.println("ship: x=" + ship.getMinX() + " y=" + ship.getMinY());
             }
         }
 

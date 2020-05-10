@@ -55,7 +55,6 @@ public class Ship
         return (Rectangle) getChildren().get(size - 1);
     }
 
-
     public double getMinX()
     {
         return this.localToScene(this.getBoundsInLocal()).getMinX();

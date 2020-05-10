@@ -44,24 +44,24 @@ public class Tile
     @Override
     public double getMinX()
     {
-        return this.getX();
+        return this.localToScene(this.getBoundsInLocal()).getMinX();
     }
 
     @Override
     public double getMaxX()
     {
-        return this.getX() + Constants.TILE_SIZE;
+        return this.localToScene(this.getBoundsInLocal()).getMinX() + Constants.TILE_SIZE;
     }
 
     @Override
     public double getMinY()
     {
-        return this.getY();
+        return this.localToScene(this.getBoundsInLocal()).getMinY();
     }
 
     @Override
     public double getMaxY()
     {
-        return this.getY() + Constants.TILE_SIZE;
+        return this.localToScene(this.getBoundsInLocal()).getMinX() + Constants.TILE_SIZE;
     }
 }

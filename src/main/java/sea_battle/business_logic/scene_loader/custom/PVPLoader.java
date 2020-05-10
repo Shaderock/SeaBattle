@@ -22,7 +22,6 @@ public class PVPLoader extends ShipsPlacingLoader
 
         buttonDrawer.setText("Next player");
         Button nextPlayerButton = (Button) buttonDrawer.draw();
-        nextPlayerButton.relocate(600, 200);
 
         getChildren().add(nextPlayerButton);
         nodeAligner.alignNode(nextPlayerButton, Pos.TOP_RIGHT);
