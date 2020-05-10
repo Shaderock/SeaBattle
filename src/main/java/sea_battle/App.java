@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.controller.ControllerFactory;
 import sea_battle.business_logic.controller.ControllerType;
-import sea_battle.business_logic.controller.custom.ShipsPlacingController;
+import sea_battle.business_logic.controller.custom.PVPController;
 import sea_battle.business_logic.scene_changer.ISceneChanger;
 import sea_battle.business_logic.scene_changer.SceneChangerFactory;
 import sea_battle.business_logic.scene_changer.SceneChangerType;
@@ -36,6 +36,6 @@ public class App extends Application
     public void initControllers()
     {
         Context context = Context.getInstance();
-        context.addCustomController((ShipsPlacingController) ControllerFactory.build(ControllerType.SHIPS_PLACING));
+        context.addCustomController((PVPController) ControllerFactory.build(ControllerType.PVP_PLACING));
     }
 }

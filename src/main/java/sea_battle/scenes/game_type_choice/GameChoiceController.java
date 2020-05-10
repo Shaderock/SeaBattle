@@ -5,7 +5,7 @@ import sea_battle.Context;
 import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.controller.custom.CustomController;
 import sea_battle.business_logic.controller.custom.OnInitializeListener;
-import sea_battle.business_logic.controller.custom.ShipsPlacingController;
+import sea_battle.business_logic.controller.custom.PVPController;
 import sea_battle.business_logic.controller.fxml.FXMLController;
 import sea_battle.business_logic.scene_changer.InitializingSceneChanger;
 import sea_battle.business_logic.scene_changer.SceneChangerFactory;
@@ -35,7 +35,7 @@ public class GameChoiceController extends FXMLController
         Context context = Context.getInstance();
         for (CustomController customController : context.getCustomControllers())
         {
-            if (customController instanceof ShipsPlacingController)
+            if (customController instanceof PVPController)
             {
                 initializingSceneChanger.addOnInitializeListener((OnInitializeListener) customController);
                 break;

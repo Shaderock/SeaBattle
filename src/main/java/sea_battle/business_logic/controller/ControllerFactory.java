@@ -1,6 +1,6 @@
 package sea_battle.business_logic.controller;
 
-import sea_battle.business_logic.controller.custom.ShipsPlacingController;
+import sea_battle.business_logic.controller.custom.PVPController;
 
 public class ControllerFactory
 {
@@ -9,7 +9,7 @@ public class ControllerFactory
         switch (controllerType)
         {
             default:
-                return new ShipsPlacingController();
+                return new PVPController();
         }
     }
 }

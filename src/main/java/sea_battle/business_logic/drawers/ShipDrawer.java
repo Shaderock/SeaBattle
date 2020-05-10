@@ -3,6 +3,7 @@ package sea_battle.business_logic.drawers;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import sea_battle.models.Constants;
 
 public class ShipDrawer implements IDrawer
@@ -25,8 +26,9 @@ public class ShipDrawer implements IDrawer
 
         for (int i = 0; i < size; i++)
         {
-            Node shipPart = tileDrawer.draw();
+            Rectangle shipPart = (Rectangle) tileDrawer.draw();
             shipPart.relocate(Constants.TILE_SIZE * i, 0);
+            shipPart.setStrokeWidth(Constants.TILE_SIZE * 0.03);
             ship.getChildren().add(shipPart);
         }
 

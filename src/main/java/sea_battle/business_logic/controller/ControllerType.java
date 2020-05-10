@@ -2,5 +2,5 @@ package sea_battle.business_logic.controller;
 
 public enum ControllerType
 {
-    SHIPS_PLACING
+    PVP_PLACING, PVE_PLACING
 }

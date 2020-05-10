@@ -1,5 +1,8 @@
 package sea_battle.business_logic.drawers;
 
+import sea_battle.business_logic.drawers.button.ButtonDrawer;
+import sea_battle.business_logic.drawers.button.HomeButtonDrawer;
+
 public class DrawerFactory
 {
     public static IDrawer build(DrawerType drawerType)
@@ -14,6 +17,8 @@ public class DrawerFactory
                 return new TileDrawer();
             case SHIPS_TO_PLACE:
                 return new ShipsToPlaceDrawer();
+            case BUTTON:
+                return new ButtonDrawer();
             default:
                 return new BattleAreaDrawer();
         }

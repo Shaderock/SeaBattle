@@ -6,5 +6,6 @@ public enum DrawerType
     HOME_BUTTON,
     SHIP,
     TILE,
-    SHIPS_TO_PLACE
+    SHIPS_TO_PLACE,
+    BUTTON
 }
