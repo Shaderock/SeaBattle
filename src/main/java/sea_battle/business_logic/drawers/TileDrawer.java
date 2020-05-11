@@ -20,6 +20,7 @@ public class TileDrawer implements IDrawer
 
         Tile tile = new Tile(Constants.TILE_SIZE, Constants.TILE_SIZE);
 
+        tile.setInitColor(fillColor);
         tile.setFill(fillColor);
         tile.setStroke(strokeColor);
 

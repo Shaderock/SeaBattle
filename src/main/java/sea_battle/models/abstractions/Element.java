@@ -1,12 +1,12 @@
 package sea_battle.models.abstractions;
 
 public interface Element
-        extends HighLightable
+        extends Highlightable
 {
-    void onHighLight();
+    void onHighlight();
 
     @Override
-    void onUnHighLight();
+    void onUnHighlight();
 
-    boolean isHighLighted();
+    boolean isHighlighted();
 }

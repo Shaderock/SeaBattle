@@ -23,6 +23,8 @@ public class ShipDrawer implements IDrawer
         tileDrawer.setStrokeColor(Color.DARKBLUE);
 
         Ship ship = new Ship();
+        ship.setStrokeInitColor(Color.DARKBLUE);
+        ship.setInitStrokeWidth(Constants.TILE_SIZE * 0.03);
 
         for (int i = 0; i < size; i++)
         {

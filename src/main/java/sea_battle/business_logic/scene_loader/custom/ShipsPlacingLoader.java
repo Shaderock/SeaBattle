@@ -75,7 +75,7 @@ public class ShipsPlacingLoader implements ISceneLoader
         battleArea.setId(Constants.BATTLE_AREA_ID);
     }
 
-    private void createShips(StackPane root)
+    private void createShips(Pane root)
     {
         IDrawer shipDrawer = DrawerFactory.build(DrawerType.SHIP);
 

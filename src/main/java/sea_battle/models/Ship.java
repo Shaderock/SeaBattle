@@ -7,31 +7,35 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sea_battle.models.abstractions.Accessible;
 import sea_battle.models.abstractions.Element;
-import sea_battle.models.abstractions.HighLightable;
+import sea_battle.models.abstractions.Highlightable;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class Ship
         extends Group
-        implements HighLightable, Accessible, Element
+        implements Highlightable, Accessible, Element
 {
-    private Paint initColor;
+    private Paint strokeInitColor;
     private double initStrokeWidth;
     private boolean isPlaced = false;
-    private boolean isHighLighted;
+    private final ArrayList<Point> tiles = new ArrayList<>();
+    private boolean isHighlighted;
     private double initX;
     private double initY;
 
     @Override
-    public void onHighLight()
+    public void onHighlight()
     {
-        isHighLighted = true;
+        isHighlighted = true;
         modifyStroke(Constants.TILE_SIZE * 0.07, Color.GREEN);
     }
 
     @Override
-    public void onUnHighLight()
+    public void onUnHighlight()
     {
-        isHighLighted = false;
-        modifyStroke(initStrokeWidth, initColor);
+        isHighlighted = false;
+        modifyStroke(initStrokeWidth, strokeInitColor);
     }
 
     private void modifyStroke(double newWidth, Paint newColor)
@@ -42,17 +46,6 @@ public class Ship
             part.setStrokeWidth(newWidth);
             part.setStroke(newColor);
         }
-    }
-
-    private Rectangle getFirstShipPart()
-    {
-        return (Rectangle) getChildren().get(0);
-    }
-
-    private Rectangle getLastShipPart()
-    {
-        int size = getChildren().size();
-        return (Rectangle) getChildren().get(size - 1);
     }
 
     public double getMinX()
@@ -91,14 +84,14 @@ public class Ship
     }
 
     @Override
-    public boolean isHighLighted()
+    public boolean isHighlighted()
     {
-        return isHighLighted;
+        return isHighlighted;
     }
 
-    public void setInitColor(Paint initColor)
+    public void setStrokeInitColor(Paint strokeInitColor)
     {
-        this.initColor = initColor;
+        this.strokeInitColor = strokeInitColor;
     }
 
     public void setInitStrokeWidth(double initStrokeWidth)
@@ -114,5 +107,20 @@ public class Ship
     public void setInitY(double initY)
     {
         this.initY = initY;
+    }
+
+    public int getSize()
+    {
+        return getChildren().size();
+    }
+
+    public ArrayList<Point> getTiles()
+    {
+        return tiles;
+    }
+
+    public void addTile(Point point)
+    {
+        tiles.add(point);
     }
 }

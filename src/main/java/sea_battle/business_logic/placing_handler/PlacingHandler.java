@@ -18,11 +18,13 @@ public class PlacingHandler     // Facade
 
     private ArrayList<Ship> ships;
     private ArrayList<Tile> tiles;
+    private final boolean[][] battleArea;
+    private final ArrayList<ArrayList<Tile>> tilesMap;
 
-    private Ship focusedShip = null;
+    private Ship highlightedShip = null;
     private final ArrayList<Tile> focusedTiles;
-    private double initPressedX;
-    private double initPressedY;
+    private double diffX;
+    private double diffY;
 
     private final IMouseEventHandler mousePressedHandler;
     private final IMouseEventHandler mouseDraggedHandler;
@@ -33,6 +35,8 @@ public class PlacingHandler     // Facade
         this.root = (Pane) root;
 
         focusedTiles = new ArrayList<>();
+        battleArea = new boolean[10][10];
+        tilesMap = new ArrayList<>();
 
         mousePressedHandler = EventHandlerFactory.build(EventHandlerType.PRESSED);
         mouseDraggedHandler = EventHandlerFactory.build(EventHandlerType.DRAGGED);
@@ -45,18 +49,21 @@ public class PlacingHandler     // Facade
 
         root.setOnMousePressed(event ->
         {
-            System.out.println("onMousePressed X:" + event.getX() + " Y:" + event.getY());
+//            System.out.println("onMousePressed X:" + event.getX() + " Y:" + event.getY());
             mousePressedHandler.handleMouseEvent(this, event);
         });
 
         root.setOnMouseDragged(event ->
         {
-            System.out.println("onDragDetected X:" + event.getX() + " Y:" + event.getY());
+//            System.out.println("onDragDetected X:" + event.getX() + " Y:" + event.getY());
             mouseDraggedHandler.handleMouseEvent(this, event);
         });
 
         root.setOnMouseReleased(event ->
-                System.out.println("onMouseReleased X:" + event.getX() + " Y:" + event.getY()));
+        {
+//            System.out.println("onMouseReleased X:" + event.getX() + " Y:" + event.getY())
+            mouseReleasedHandler.handleMouseEvent(this, event);
+        });
     }
 
     private void convertRootToElements()
@@ -64,6 +71,21 @@ public class PlacingHandler     // Facade
         Converter converter = new Converter();
         tiles = converter.getTiles(root);
         ships = converter.getShips(root);
+
+        for (int i = 0; i < 10; i++)
+        {
+            tilesMap.add(new ArrayList<>());
+            for (int j = 0; j < 10; j++)
+            {
+                tilesMap.get(i).add(tiles.get(i + j * 10));
+            }
+        }
+
+        for (Ship ship : ships)
+        {
+            ship.setInitX(ship.getMinX());
+            ship.setInitY(ship.getMinY());
+        }
     }
 
     public void addFocusedTile(Tile tile)
@@ -86,14 +108,14 @@ public class PlacingHandler     // Facade
         return tiles;
     }
 
-    public Ship getFocusedShip()
+    public Ship getHighlightedShip()
     {
-        return focusedShip;
+        return highlightedShip;
     }
 
-    public void setFocusedShip(Ship focusedShip)
+    public void setHighlightedShip(Ship focusedShip)
     {
-        this.focusedShip = focusedShip;
+        this.highlightedShip = focusedShip;
     }
 
     public ArrayList<Tile> getFocusedTiles()
@@ -101,23 +123,33 @@ public class PlacingHandler     // Facade
         return focusedTiles;
     }
 
-    public double getInitPressedX()
+    public double getDiffX()
     {
-        return initPressedX;
+        return diffX;
     }
 
-    public void setInitPressedX(double initPressedX)
+    public void setDiffX(double diffX)
     {
-        this.initPressedX = initPressedX;
+        this.diffX = diffX;
     }
 
-    public double getInitPressedY()
+    public double getDiffY()
     {
-        return initPressedY;
+        return diffY;
     }
 
-    public void setInitPressedY(double initPressedY)
+    public void setDiffY(double diffY)
     {
-        this.initPressedY = initPressedY;
+        this.diffY = diffY;
+    }
+
+    public ArrayList<ArrayList<Tile>> getTilesMap()
+    {
+        return tilesMap;
+    }
+
+    public boolean[][] getBattleArea()
+    {
+        return battleArea;
     }
 }

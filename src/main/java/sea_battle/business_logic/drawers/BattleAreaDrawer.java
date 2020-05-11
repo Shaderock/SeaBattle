@@ -3,8 +3,8 @@ package sea_battle.business_logic.drawers;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import sea_battle.models.Constants;
+import sea_battle.models.Tile;
 
 public class BattleAreaDrawer implements IDrawer
 {
@@ -24,7 +24,9 @@ public class BattleAreaDrawer implements IDrawer
                 tileDrawer.setFillColor(Color.WHITESMOKE);
                 tileDrawer.setStrokeColor(Color.DARKGRAY);
 
-                Rectangle tile = (Rectangle) tileDrawer.draw();
+                Tile tile = (Tile) tileDrawer.draw();
+                tile.setColumn(x);
+                tile.setRow(y);
 
                 tile.relocate((double) x * Constants.TILE_SIZE,
                         y * (double) Constants.TILE_SIZE);

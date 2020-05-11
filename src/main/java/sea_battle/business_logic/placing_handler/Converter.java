@@ -21,8 +21,7 @@ public class Converter
         {
             Tile tile = (Tile) node;
             tiles.add(tile);
-
-            System.out.println("tile: x=" + tile.getMinX() + " y=" + tile.getMinY());
+//            System.out.println("tile: x=" + tile.getMinX() + " y=" + tile.getMinY());
         }
 
         return tiles;
@@ -30,7 +29,6 @@ public class Converter
 
     public ArrayList<Ship> getShips(Parent root)
     {
-//        Group shipsAsGroup = (Group) NodeFinder.findNodeById(root, Constants.SHIPS_ID);
         ArrayList<Ship> ships = new ArrayList<>();
 
         for (Node child : root.getChildrenUnmodifiable())
@@ -40,7 +38,7 @@ public class Converter
                 ships.add((Ship) child);
 
                 Ship ship = (Ship) child;
-                System.out.println("ship: x=" + ship.getMinX() + " y=" + ship.getMinY());
+//                System.out.println("ship: x=" + ship.getMinX() + " y=" + ship.getMinY());
             }
         }
 

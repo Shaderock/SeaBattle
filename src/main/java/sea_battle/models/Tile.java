@@ -6,14 +6,16 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sea_battle.models.abstractions.Accessible;
 import sea_battle.models.abstractions.Element;
-import sea_battle.models.abstractions.HighLightable;
+import sea_battle.models.abstractions.Highlightable;
 
 public class Tile
         extends Rectangle
-        implements HighLightable, Accessible, Element
+        implements Highlightable, Accessible, Element
 {
     private Paint initColor;
-    private boolean isHighLighted;
+    private boolean isHighlighted;
+    private int column;
+    private int row;
 
     public Tile(double width, double height)
     {
@@ -21,24 +23,23 @@ public class Tile
     }
 
     @Override
-    public void onHighLight()
+    public void onHighlight()
     {
-        isHighLighted = true;
-        initColor = this.getFill();
+        isHighlighted = true;
         this.setFill(Color.LIGHTGREEN);
     }
 
     @Override
-    public void onUnHighLight()
+    public void onUnHighlight()
     {
-        isHighLighted = false;
+        isHighlighted = false;
         this.setFill(initColor);
     }
 
     @Override
-    public boolean isHighLighted()
+    public boolean isHighlighted()
     {
-        return isHighLighted;
+        return isHighlighted;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class Tile
     @Override
     public double getMaxX()
     {
-        return this.localToScene(this.getBoundsInLocal()).getMinX() + Constants.TILE_SIZE;
+        return this.localToScene(this.getBoundsInLocal()).getMaxX();
     }
 
     @Override
@@ -62,6 +63,31 @@ public class Tile
     @Override
     public double getMaxY()
     {
-        return this.localToScene(this.getBoundsInLocal()).getMinX() + Constants.TILE_SIZE;
+        return this.localToScene(this.getBoundsInLocal()).getMaxY();
+    }
+
+    public int getColumn()
+    {
+        return column;
+    }
+
+    public void setColumn(int column)
+    {
+        this.column = column;
+    }
+
+    public int getRow()
+    {
+        return row;
+    }
+
+    public void setRow(int row)
+    {
+        this.row = row;
+    }
+
+    public void setInitColor(Paint initColor)
+    {
+        this.initColor = initColor;
     }
 }
