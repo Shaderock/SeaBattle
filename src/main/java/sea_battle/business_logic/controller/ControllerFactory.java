@@ -1,15 +1,11 @@
 package sea_battle.business_logic.controller;
 
-import sea_battle.business_logic.controller.custom.PVPController;
+import sea_battle.business_logic.controller.custom.GameController;
 
-public class ControllerFactory
+public class ControllerFactory implements IControllerFactory
 {
-    public static IController build(ControllerType controllerType)
+    public IController buildController(ControllerType controllerType)
     {
-        switch (controllerType)
-        {
-            default:
-                return new PVPController();
-        }
+        return new GameController();
     }
 }

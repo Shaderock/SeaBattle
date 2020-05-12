@@ -17,7 +17,7 @@ import sea_battle.business_logic.position_changer.NodeAlignerFactory;
 import sea_battle.business_logic.scene_loader.ISceneLoader;
 import sea_battle.models.Constants;
 
-public class ShipsPlacingLoader     // Template method
+public class ShipsPlacingLoader
         implements ISceneLoader
 {
     private ObservableList<Node> children;

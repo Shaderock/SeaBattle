@@ -28,20 +28,7 @@ public class PVPController
         super.onInitialize(root);
         stackPaneRoot = (Pane) root;
 
-        nextBtn = (Button) NodeFinder.findNodeById(stackPaneRoot, Constants.NEXT_BTN_ID);
-        nextBtn.setDisable(true);
-
-        nextBtn.setOnMouseClicked(event ->
-        {
-            try
-            {
-                nextBtnAction();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        });
+        nextBtn = (Button) NodeFinder.findNodeById(root, Constants.NEXT_BTN_ID);
 
         placeShips();
     }

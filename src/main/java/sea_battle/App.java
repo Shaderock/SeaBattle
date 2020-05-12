@@ -2,10 +2,13 @@ package sea_battle;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import sea_battle.business_logic.PVP_PVC.PVCFactory;
+import sea_battle.business_logic.PVP_PVC.PVPFactory;
 import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.controller.ControllerFactory;
 import sea_battle.business_logic.controller.ControllerType;
-import sea_battle.business_logic.controller.custom.PVPController;
+import sea_battle.business_logic.controller.IControllerFactory;
+import sea_battle.business_logic.controller.custom.CustomController;
 import sea_battle.business_logic.scene_changer.ISceneChanger;
 import sea_battle.business_logic.scene_changer.SceneChangerFactory;
 import sea_battle.business_logic.scene_changer.SceneChangerType;
@@ -36,6 +39,17 @@ public class App extends Application
     public void initControllers()
     {
         Context context = Context.getInstance();
-        context.addCustomController((PVPController) ControllerFactory.build(ControllerType.PVP_PLACING));
+
+        IControllerFactory controllerFactory = new PVPFactory();
+
+        context.addCustomController((CustomController) controllerFactory.buildController(ControllerType.PVP_PLACING));
+
+        controllerFactory = new PVCFactory();
+
+        context.addCustomController((CustomController) controllerFactory.buildController(ControllerType.PVE_PLACING));
+
+        controllerFactory = new ControllerFactory();
+
+        context.addCustomController((CustomController) controllerFactory.buildController(ControllerType.GAME));
     }
 }

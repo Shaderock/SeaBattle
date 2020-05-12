@@ -3,6 +3,7 @@ package sea_battle.business_logic.scene_changer;
 import javafx.scene.Parent;
 import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.controller.custom.OnInitializeListener;
+import sea_battle.business_logic.scene_loader.ISceneLoaderFactory;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,12 @@ public class InitializingSceneChanger   // Proxy
     public Parent getRoot()
     {
         return sceneChanger.getRoot();
+    }
+
+    @Override
+    public void setLoaderFactory(ISceneLoaderFactory loaderFactory)
+    {
+        sceneChanger.setLoaderFactory(loaderFactory);
     }
 
     public void addOnInitializeListener(OnInitializeListener onInitializeListener)

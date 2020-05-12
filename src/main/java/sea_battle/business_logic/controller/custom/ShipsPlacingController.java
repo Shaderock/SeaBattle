@@ -2,11 +2,12 @@ package sea_battle.business_logic.controller.custom;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.models.Constants;
 
-public class ShipsPlacingController
+public abstract class ShipsPlacingController    // Template method
         extends CustomController
         implements OnInitializeListener
 {
@@ -25,5 +26,12 @@ public class ShipsPlacingController
                 e.printStackTrace();
             }
         });
+
+        Button nextBtn = (Button) NodeFinder.findNodeById(root, Constants.NEXT_BTN_ID);
+        nextBtn.setDisable(true);
+        nextBtn.setOnMouseClicked(event ->
+                nextBtnAction());
     }
+
+    protected abstract void nextBtnAction();
 }

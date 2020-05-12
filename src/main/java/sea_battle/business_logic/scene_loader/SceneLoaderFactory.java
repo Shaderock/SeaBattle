@@ -6,9 +6,9 @@ import sea_battle.business_logic.scene_loader.fxml.GameChoiceLoader;
 import sea_battle.business_logic.scene_loader.fxml.MainSceneLoader;
 import sea_battle.business_logic.scene_loader.fxml.SettingsSceneLoader;
 
-public class SceneLoaderFactory
+public class SceneLoaderFactory implements ISceneLoaderFactory
 {
-    public static ISceneLoader build(SceneType sceneType)
+    public ISceneLoader buildSceneLoader(SceneType sceneType)
     {
         switch (sceneType)
         {
