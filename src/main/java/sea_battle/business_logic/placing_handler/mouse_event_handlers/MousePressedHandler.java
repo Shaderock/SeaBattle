@@ -5,8 +5,6 @@ import sea_battle.business_logic.placing_handler.PlacingHandler;
 import sea_battle.business_logic.utils.ElementHandler;
 import sea_battle.models.Ship;
 
-import java.awt.*;
-
 public class MousePressedHandler extends MouseEventHandler
 {
     @Override
@@ -18,54 +16,48 @@ public class MousePressedHandler extends MouseEventHandler
 
         if (pressedShip != null)
         {
-            if (placingHandler.getHighlightedShip() != null)
-            {
-                Ship highlightedShip = placingHandler.getHighlightedShip();
-
-                if (highlightedShip == pressedShip)
-                {
-                    if (highlightedShip.isPlaced())
-                    {
-                        highlightedShip.setPlaced(false);
-
-                        for (Point tile : placingHandler.getHighlightedShip().getTiles())
-                        {
-                            placingHandler.getBattleArea()[tile.x][tile.y] = false;
-                        }
-
-                        placingHandler.getHighlightedShip().getTiles().clear();
-                    }
-                }
-                else
-                {
-                    if (highlightedShip.isHighlighted())
-                    {
-                        highlightedShip.onUnHighlight();
-                    }
-                }
-            }
-
-            if (pressedShip.isPlaced())
-            {
-                pressedShip.setPlaced(false);
-
-                for (Point tile : pressedShip.getTiles())
-                {
-                    placingHandler.getBattleArea()[tile.x][tile.y] = false;
-                }
-
-                pressedShip.getTiles().clear();
-            }
-
-            pressedShip.onHighlight();
-            ElementHandler.highlightTiles(placingHandler, pressedShip);
-            placingHandler.setHighlightedShip(pressedShip);
-            placingHandler.setDiffX(mouseEvent.getSceneX() - pressedShip.getMinX());
-            placingHandler.setDiffY(mouseEvent.getSceneY() - pressedShip.getMinY());
+            handleShipPressed(placingHandler, mouseEvent, pressedShip);
         }
         else
         {
             ElementHandler.unHighlightAllElements(placingHandler);
+        }
+    }
+
+    private void handleShipPressed(PlacingHandler placingHandler, MouseEvent mouseEvent, Ship pressedShip)
+    {
+        if (placingHandler.getHighlightedShip() != null)
+        {
+            handleHighlightedShipExists(placingHandler, pressedShip);
+        }
+
+        ElementHandler.removeShipPlacing(placingHandler.getBattleArea(), pressedShip);
+
+        pressedShip.onHighlight();
+        if (pressedShip.isShowingRotateWarning())
+        {
+            pressedShip.removeRotateWarning();
+        }
+        ElementHandler.highlightTiles(placingHandler, pressedShip);
+        placingHandler.setHighlightedShip(pressedShip);
+        placingHandler.setDiffX(mouseEvent.getSceneX() - pressedShip.getMinX());
+        placingHandler.setDiffY(mouseEvent.getSceneY() - pressedShip.getMinY());
+    }
+
+    private void handleHighlightedShipExists(PlacingHandler placingHandler, Ship pressedShip)
+    {
+        Ship highlightedShip = placingHandler.getHighlightedShip();
+
+        if (highlightedShip == pressedShip)
+        {
+            ElementHandler.removeShipPlacing(placingHandler.getBattleArea(), highlightedShip);
+        }
+        else
+        {
+            if (highlightedShip.isHighlighted())
+            {
+                highlightedShip.onUnHighlight();
+            }
         }
     }
 

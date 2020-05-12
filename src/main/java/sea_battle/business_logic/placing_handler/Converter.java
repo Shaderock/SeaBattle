@@ -37,7 +37,7 @@ public class Converter
             {
                 ships.add((Ship) child);
 
-                Ship ship = (Ship) child;
+//                Ship ship = (Ship) child;
 //                System.out.println("ship: x=" + ship.getMinX() + " y=" + ship.getMinY());
             }
         }

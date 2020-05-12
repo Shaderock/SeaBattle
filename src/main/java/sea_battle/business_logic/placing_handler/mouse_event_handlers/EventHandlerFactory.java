@@ -10,6 +10,8 @@ public class EventHandlerFactory
                 return new MouseDraggedHandler();
             case RELEASED:
                 return new MouseReleasedHandler();
+            case CLICKED:
+                return new RotateClickedHandler();
             default:
                 return new MousePressedHandler();
         }

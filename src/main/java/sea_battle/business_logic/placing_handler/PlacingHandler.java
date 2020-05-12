@@ -1,10 +1,13 @@
 package sea_battle.business_logic.placing_handler;
 
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import sea_battle.business_logic.placing_handler.mouse_event_handlers.EventHandlerFactory;
 import sea_battle.business_logic.placing_handler.mouse_event_handlers.EventHandlerType;
 import sea_battle.business_logic.placing_handler.mouse_event_handlers.IMouseEventHandler;
+import sea_battle.business_logic.utils.NodeFinder;
+import sea_battle.models.Constants;
 import sea_battle.models.Ship;
 import sea_battle.models.Tile;
 
@@ -15,6 +18,7 @@ public class PlacingHandler     // Facade
 {
     private final Pane root;
     private OnAllShipsPlacedListener listener;
+    private Button rotateButton;
 
     private ArrayList<Ship> ships;
     private ArrayList<Tile> tiles;
@@ -29,6 +33,7 @@ public class PlacingHandler     // Facade
     private final IMouseEventHandler mousePressedHandler;
     private final IMouseEventHandler mouseDraggedHandler;
     private final IMouseEventHandler mouseReleasedHandler;
+    private final IMouseEventHandler rotateClickedHandler;
 
     public PlacingHandler(Parent root)
     {
@@ -41,36 +46,32 @@ public class PlacingHandler     // Facade
         mousePressedHandler = EventHandlerFactory.build(EventHandlerType.PRESSED);
         mouseDraggedHandler = EventHandlerFactory.build(EventHandlerType.DRAGGED);
         mouseReleasedHandler = EventHandlerFactory.build(EventHandlerType.RELEASED);
+        rotateClickedHandler = EventHandlerFactory.build(EventHandlerType.CLICKED);
     }
 
     public void handlePlacing()
     {
-        convertRootToElements();
+        extractFromRoot();
 
         root.setOnMousePressed(event ->
-        {
-//            System.out.println("onMousePressed X:" + event.getX() + " Y:" + event.getY());
-            mousePressedHandler.handleMouseEvent(this, event);
-        });
+                mousePressedHandler.handleMouseEvent(this, event));
 
         root.setOnMouseDragged(event ->
-        {
-//            System.out.println("onDragDetected X:" + event.getX() + " Y:" + event.getY());
-            mouseDraggedHandler.handleMouseEvent(this, event);
-        });
+                mouseDraggedHandler.handleMouseEvent(this, event));
 
         root.setOnMouseReleased(event ->
-        {
-//            System.out.println("onMouseReleased X:" + event.getX() + " Y:" + event.getY())
-            mouseReleasedHandler.handleMouseEvent(this, event);
-        });
+                mouseReleasedHandler.handleMouseEvent(this, event));
+
+        rotateButton.setOnMouseClicked(event ->
+                rotateClickedHandler.handleMouseEvent(this, event));
     }
 
-    private void convertRootToElements()
+    private void extractFromRoot()
     {
         Converter converter = new Converter();
         tiles = converter.getTiles(root);
         ships = converter.getShips(root);
+        rotateButton = (Button) NodeFinder.findNodeById(root, Constants.ROTATE_BTN_ID);
 
         for (int i = 0; i < 10; i++)
         {
@@ -85,6 +86,26 @@ public class PlacingHandler     // Facade
         {
             ship.setInitX(ship.getMinX());
             ship.setInitY(ship.getMinY());
+        }
+    }
+
+    public void checkPlacedShips()
+    {
+        boolean allShipsPlaced = true;
+
+        for (Ship ship : ships)
+        {
+            if (!ship.isPlaced())
+            {
+                allShipsPlaced = false;
+                listener.onShipDisplacement();
+                break;
+            }
+        }
+
+        if (allShipsPlaced)
+        {
+            listener.onAllShipsPlaced(battleArea);
         }
     }
 

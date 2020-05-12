@@ -12,7 +12,6 @@ public class NodeAligner implements INodeAligner
     public void alignNode(Node node, Pos pos)
     {
         StackPane.setAlignment(node, pos);
-//        setNodeMargins(node);
     }
 
     public void setNodeMargins(Node node)

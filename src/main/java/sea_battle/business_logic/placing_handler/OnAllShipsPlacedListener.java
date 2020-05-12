@@ -1,8 +1,8 @@
 package sea_battle.business_logic.placing_handler;
 
-public interface OnAllShipsPlacedListener
+public interface OnAllShipsPlacedListener   // Observer
 {
-    void onAllShipsPlaced();
+    void onAllShipsPlaced(boolean[][] battleArea);
 
     void onShipDisplacement();
 }

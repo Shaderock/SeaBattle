@@ -4,7 +4,7 @@ import javafx.scene.Parent;
 
 import java.io.IOException;
 
-public interface ISceneLoader
+public interface ISceneLoader   // Strategy
 {
     Parent loadScene() throws IOException;
 }

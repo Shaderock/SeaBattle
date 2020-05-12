@@ -7,6 +7,8 @@ import sea_battle.models.Ship;
 import sea_battle.models.Tile;
 import sea_battle.models.abstractions.Accessible;
 
+import java.awt.*;
+
 public class ElementHandler
 {
     public static boolean eventInsideElementArea(Accessible accessibleElement, MouseEvent mouseEvent)
@@ -33,28 +35,53 @@ public class ElementHandler
 
     public static void highlightTiles(PlacingHandler placingHandler, Ship focusedShip)
     {
+        boolean isTileFound = false;
+
         for (Tile tile : placingHandler.getTiles())
         {
             if (ElementHandler.pointInsideElementArea(tile, focusedShip.getMinX(),
                     focusedShip.getMinY() + (Constants.TILE_SIZE >> 1)))
             {
+                isTileFound = true;
                 unHighlightTiles(placingHandler);
                 checkTiles(placingHandler, focusedShip, tile);
             }
+        }
+
+        if (!isTileFound)
+        {
+            unHighlightTiles(placingHandler);
         }
     }
 
     private static void checkTiles(PlacingHandler placingHandler, Ship focusedShip, Tile tile)
     {
-        if (10 - focusedShip.getSize() >= tile.getColumn() &&
-                checkNeighboringTiles(placingHandler, focusedShip, tile))
+        if (focusedShip.isHorizontal())
         {
-            for (int i = 0; i < focusedShip.getSize(); i++)
+            if (10 - focusedShip.getSize() >= tile.getColumn() &&
+                    checkNeighboringTiles(placingHandler, focusedShip, tile))
             {
-                Tile tileToHighlight =
-                        placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
-                tileToHighlight.onHighlight();
-                placingHandler.addFocusedTile(tileToHighlight);
+                for (int i = 0; i < focusedShip.getSize(); i++)
+                {
+                    Tile tileToHighlight =
+                            placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
+                    tileToHighlight.onHighlight();
+                    placingHandler.addFocusedTile(tileToHighlight);
+                }
+            }
+        }
+        else
+        {
+            if (10 - focusedShip.getSize() >= tile.getRow() &&
+                    checkNeighboringTiles(placingHandler, focusedShip, tile))
+            {
+                for (int i = 0; i < focusedShip.getSize(); i++)
+                {
+                    Tile tileToHighlight =
+                            placingHandler.getTilesMap().get(tile.getRow() + i).get(tile.getColumn());
+                    tileToHighlight.onHighlight();
+                    placingHandler.addFocusedTile(tileToHighlight);
+                }
             }
         }
     }
@@ -78,8 +105,18 @@ public class ElementHandler
             {
                 continue;
             }
-            Tile tileToCheck = placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
-            if (checkTile(tileToCheck, map))
+            Tile tileToCheck;
+
+            if (focusedShip.isHorizontal())
+            {
+                tileToCheck = placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
+            }
+            else
+            {
+                tileToCheck = placingHandler.getTilesMap().get(tile.getRow() + i).get(tile.getColumn());
+            }
+
+            if (tileIsOccupied(tileToCheck.getRow(), tileToCheck.getColumn(), map))
             {
                 return false;
             }
@@ -88,17 +125,13 @@ public class ElementHandler
         return true;
     }
 
-    private static boolean checkTile(Tile tile, boolean[][] map)
+    public static boolean tileIsOccupied(int row, int column, boolean[][] map)
     {
-        for (int row = tile.getRow() - 1; row < tile.getRow() + 2; row++)
+        for (int r = row - 1; r < row + 2; r++)
         {
-            for (int column = tile.getColumn() - 1; column < tile.getColumn() + 2; column++)
+            for (int col = column - 1; col < column + 2; col++)
             {
-                if (row < 0 || row > 9 || column < 0 || column > 9)
-                {
-                    continue;
-                }
-                if (map[row][column])
+                if (r >= 0 && r <= 9 && col >= 0 && col <= 9 && map[r][col])
                 {
                     return true;
                 }
@@ -120,5 +153,20 @@ public class ElementHandler
             ship.onUnHighlight();
         }
         placingHandler.setHighlightedShip(null);
+    }
+
+    public static void removeShipPlacing(boolean[][] battleArea, Ship pressedShip)
+    {
+        if (pressedShip.isPlaced())
+        {
+            pressedShip.setPlaced(false);
+
+            for (Point tile : pressedShip.getTiles())
+            {
+                battleArea[tile.x][tile.y] = false;
+            }
+
+            pressedShip.getTiles().clear();
+        }
     }
 }

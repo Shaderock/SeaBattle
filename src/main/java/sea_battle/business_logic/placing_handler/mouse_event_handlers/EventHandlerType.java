@@ -4,5 +4,6 @@ public enum EventHandlerType
 {
     PRESSED,
     DRAGGED,
-    RELEASED
+    RELEASED,
+    CLICKED
 }

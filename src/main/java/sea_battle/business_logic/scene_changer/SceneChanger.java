@@ -8,7 +8,7 @@ import sea_battle.business_logic.scene_loader.ISceneLoader;
 import sea_battle.business_logic.scene_loader.SceneLoaderFactory;
 import sea_battle.models.Constants;
 
-public class SceneChanger implements ISceneChanger
+public class SceneChanger implements ISceneChanger  // Strategy Context
 {
     private final Stage primaryStage;
     private Parent root;

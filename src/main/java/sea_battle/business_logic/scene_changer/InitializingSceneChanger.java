@@ -6,7 +6,7 @@ import sea_battle.business_logic.controller.custom.OnInitializeListener;
 
 import java.util.ArrayList;
 
-public class InitializingSceneChanger
+public class InitializingSceneChanger   // Proxy
         implements ISceneChanger,
         Initializer
 {

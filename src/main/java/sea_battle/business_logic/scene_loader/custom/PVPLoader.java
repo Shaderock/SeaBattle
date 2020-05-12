@@ -1,14 +1,10 @@
 package sea_battle.business_logic.scene_loader.custom;
 
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import sea_battle.business_logic.drawers.DrawerFactory;
-import sea_battle.business_logic.drawers.DrawerType;
-import sea_battle.business_logic.drawers.button.ButtonDrawer;
-import sea_battle.business_logic.position_changer.INodeAligner;
-import sea_battle.business_logic.position_changer.NodeAlignerFactory;
+import sea_battle.business_logic.utils.NodeFinder;
+import sea_battle.models.Constants;
 
 public class PVPLoader extends ShipsPlacingLoader
 {
@@ -17,16 +13,8 @@ public class PVPLoader extends ShipsPlacingLoader
     {
         Pane root = (Pane) super.loadScene();
 
-        ButtonDrawer buttonDrawer = (ButtonDrawer) DrawerFactory.build(DrawerType.BUTTON);
-        INodeAligner nodeAligner = NodeAlignerFactory.build();
-
-        buttonDrawer.setText("Next player");
-        Button nextPlayerButton = (Button) buttonDrawer.draw();
-        nextPlayerButton.relocate(1000, 0);
-
-        getChildren().add(nextPlayerButton);
-        nodeAligner.alignNode(nextPlayerButton, Pos.TOP_RIGHT);
-        nodeAligner.setNodeMargins(nextPlayerButton);
+        Button nextBtn = (Button) NodeFinder.findNodeById(root, Constants.NEXT_BTN_ID);
+        nextBtn.setText("Next Player");
 
         return root;
     }

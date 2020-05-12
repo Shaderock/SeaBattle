@@ -14,6 +14,7 @@ public class MouseReleasedHandler extends MouseEventHandler
     public void handleMouseEvent(PlacingHandler placingHandler, MouseEvent mouseEvent)
     {
         Ship ship = placingHandler.getHighlightedShip();
+
         if (ship == null)
         {
             ElementHandler.unHighlightAllElements(placingHandler);
@@ -22,31 +23,40 @@ public class MouseReleasedHandler extends MouseEventHandler
 
         if (placingHandler.getFocusedTiles().size() > 0)
         {
-            ship.relocate(placingHandler.getFocusedTiles().get(0).getMinX(),
-                    placingHandler.getFocusedTiles().get(0).getMinY());
-
-            for (Tile focusedTile : placingHandler.getFocusedTiles())
-            {
-                placingHandler.getBattleArea()[focusedTile.getRow()][focusedTile.getColumn()] = true;
-                ship.setPlaced(true);
-                ship.addTile(new Point(focusedTile.getRow(), focusedTile.getColumn()));
-                focusedTile.onUnHighlight();
-            }
-
-            placingHandler.getFocusedTiles().clear();
-            return;
+            handleShipPlacing(placingHandler, ship);
         }
-
-        if (ship.isPlaced() && placingHandler.getFocusedTiles().size() == 0)
+        else
         {
-            ship.setPlaced(false);
-            ship.onUnHighlight();
-            for (Point tile : ship.getTiles())
-            {
-                placingHandler.getBattleArea()[tile.x][tile.y] = false;
-            }
-            ship.relocateOnInitPos();
+            handleShipThrowingBack(placingHandler, ship);
         }
+
+        placingHandler.checkPlacedShips();
+    }
+
+    private void handleShipThrowingBack(PlacingHandler placingHandler, Ship ship)
+    {
+        ship.onUnHighlight();
+        for (Point tile : ship.getTiles())
+        {
+            placingHandler.getBattleArea()[tile.x][tile.y] = false;
+        }
+        ship.relocateOnInitPos();
+    }
+
+    private void handleShipPlacing(PlacingHandler placingHandler, Ship ship)
+    {
+        ship.relocate(placingHandler.getFocusedTiles().get(0).getMinX(),
+                placingHandler.getFocusedTiles().get(0).getMinY());
+
+        for (Tile focusedTile : placingHandler.getFocusedTiles())
+        {
+            placingHandler.getBattleArea()[focusedTile.getRow()][focusedTile.getColumn()] = true;
+            ship.setPlaced(true);
+            ship.addTile(new Point(focusedTile.getRow(), focusedTile.getColumn()));
+            focusedTile.onUnHighlight();
+        }
+
+        placingHandler.getFocusedTiles().clear();
     }
 
 }

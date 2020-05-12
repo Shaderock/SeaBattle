@@ -6,12 +6,10 @@ public class SceneChangerFactory
 {
     public static ISceneChanger build(SceneChangerType sceneChangerType)
     {
-        switch (sceneChangerType)
+        if (sceneChangerType == SceneChangerType.INITIALIZING)
         {
-            case INITIALIZING:
-                return new InitializingSceneChanger(new SceneChanger(Context.getStage()));
-            default:
-                return new SceneChanger(Context.getStage());
+            return new InitializingSceneChanger(new SceneChanger(Context.getStage()));
         }
+        return new SceneChanger(Context.getStage());
     }
 }
