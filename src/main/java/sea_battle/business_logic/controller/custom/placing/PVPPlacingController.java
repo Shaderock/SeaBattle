@@ -1,18 +1,22 @@
-package sea_battle.business_logic.controller.custom;
+package sea_battle.business_logic.controller.custom.placing;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import sea_battle.business_logic.placing_handler.Converter;
+import sea_battle.Context;
+import sea_battle.business_logic.SceneType;
+import sea_battle.business_logic.game.PlayerFactory;
+import sea_battle.business_logic.game.PlayerNumber;
 import sea_battle.business_logic.placing_handler.IPlacingHandler;
 import sea_battle.business_logic.placing_handler.OnAllShipsPlacedListener;
 import sea_battle.business_logic.placing_handler.PlacingHandler;
+import sea_battle.business_logic.utils.Converter;
 import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.models.Constants;
 import sea_battle.models.Ship;
 
 
-public class PVPController
+public class PVPPlacingController
         extends ShipsPlacingController
         implements OnAllShipsPlacedListener
 {
@@ -51,7 +55,19 @@ public class PVPController
         }
         else
         {
+            Context context = Context.getInstance();
+            context.addPlayer(PlayerFactory.buildPlayer(PlayerNumber.ONE, player1BattleArea));
+            context.addPlayer(PlayerFactory.buildPlayer(PlayerNumber.TWO, player2BattleArea));
 
+            getSceneChanger().setLoaderFactory(getFactory());
+            try
+            {
+                getSceneChanger().setScene(SceneType.GAME_PVP);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
     }

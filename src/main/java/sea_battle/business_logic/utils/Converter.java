@@ -1,9 +1,8 @@
-package sea_battle.business_logic.placing_handler;
+package sea_battle.business_logic.utils;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.models.Constants;
 import sea_battle.models.Ship;
 import sea_battle.models.Tile;
@@ -19,9 +18,7 @@ public class Converter
 
         for (Node node : battleArea.getChildren())
         {
-            Tile tile = (Tile) node;
-            tiles.add(tile);
-//            System.out.println("tile: x=" + tile.getMinX() + " y=" + tile.getMinY());
+            tiles.add((Tile) node);
         }
 
         return tiles;
@@ -36,9 +33,6 @@ public class Converter
             if (child instanceof Ship)
             {
                 ships.add((Ship) child);
-
-//                Ship ship = (Ship) child;
-//                System.out.println("ship: x=" + ship.getMinX() + " y=" + ship.getMinY());
             }
         }
 

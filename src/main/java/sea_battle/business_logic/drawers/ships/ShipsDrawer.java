@@ -1,7 +1,6 @@
-package sea_battle.business_logic.scene_loader.custom;
+package sea_battle.business_logic.drawers.ships;
 
 import javafx.scene.layout.Pane;
-import sea_battle.business_logic.drawers.ShipDrawer;
 import sea_battle.models.Constants;
 import sea_battle.models.Ship;
 

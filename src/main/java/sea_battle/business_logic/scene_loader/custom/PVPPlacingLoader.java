@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.models.Constants;
 
-public class PVPLoader extends ShipsPlacingLoader
+public class PVPPlacingLoader extends ShipsPlacingLoader
 {
     @Override
     public Parent loadScene()

@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import sea_battle.business_logic.placing_handler.mouse_event_handlers.EventHandlerFactory;
 import sea_battle.business_logic.placing_handler.mouse_event_handlers.EventHandlerType;
 import sea_battle.business_logic.placing_handler.mouse_event_handlers.IMouseEventHandler;
+import sea_battle.business_logic.utils.Converter;
 import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.models.Constants;
 import sea_battle.models.Ship;

@@ -1,9 +1,8 @@
-package sea_battle.business_logic.drawers.button;
+package sea_battle.business_logic.drawers;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
-import sea_battle.business_logic.drawers.IDrawer;
 
 public class ButtonDrawer implements IDrawer
 {
@@ -14,7 +13,7 @@ public class ButtonDrawer implements IDrawer
     {
         if (text == null)
         {
-            throw new RuntimeException("Test should be given to draw a button");
+            throw new RuntimeException("Text should be given to draw a button");
         }
         Button button = new Button();
 

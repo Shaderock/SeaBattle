@@ -1,7 +1,11 @@
-package sea_battle.business_logic.drawers;
+package sea_battle.business_logic.drawers.ships;
 
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import sea_battle.business_logic.drawers.DrawerFactory;
+import sea_battle.business_logic.drawers.DrawerType;
+import sea_battle.business_logic.drawers.IDrawer;
+import sea_battle.business_logic.drawers.TileDrawer;
 import sea_battle.models.Constants;
 import sea_battle.models.Ship;
 import sea_battle.models.Tile;

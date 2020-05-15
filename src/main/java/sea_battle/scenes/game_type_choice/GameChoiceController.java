@@ -7,8 +7,8 @@ import sea_battle.business_logic.PVP_PVC.PVPFactory;
 import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.controller.custom.CustomController;
 import sea_battle.business_logic.controller.custom.OnInitializeListener;
-import sea_battle.business_logic.controller.custom.PVCController;
-import sea_battle.business_logic.controller.custom.PVPController;
+import sea_battle.business_logic.controller.custom.placing.PVCPlacingController;
+import sea_battle.business_logic.controller.custom.placing.PVPPlacingController;
 import sea_battle.business_logic.controller.fxml.FXMLController;
 import sea_battle.business_logic.scene_changer.InitializingSceneChanger;
 import sea_battle.business_logic.scene_changer.SceneChangerFactory;
@@ -39,7 +39,7 @@ public class GameChoiceController extends FXMLController
         Context context = Context.getInstance();
         for (CustomController customController : context.getCustomControllers())
         {
-            if (customController instanceof PVPController)
+            if (customController instanceof PVPPlacingController)
             {
                 initializingSceneChanger.addOnInitializeListener((OnInitializeListener) customController);
                 break;
@@ -55,7 +55,7 @@ public class GameChoiceController extends FXMLController
         Context context = Context.getInstance();
         for (CustomController customController : context.getCustomControllers())
         {
-            if (customController instanceof PVCController)
+            if (customController instanceof PVCPlacingController)
             {
                 initializingSceneChanger.addOnInitializeListener((OnInitializeListener) customController);
                 break;

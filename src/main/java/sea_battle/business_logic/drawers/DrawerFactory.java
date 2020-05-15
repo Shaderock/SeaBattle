@@ -1,7 +1,6 @@
 package sea_battle.business_logic.drawers;
 
-import sea_battle.business_logic.drawers.button.ButtonDrawer;
-import sea_battle.business_logic.drawers.button.HomeButtonDrawer;
+import sea_battle.business_logic.drawers.ships.ShipDrawer;
 
 public class DrawerFactory
 {
@@ -9,8 +8,8 @@ public class DrawerFactory
     {
         switch (drawerType)
         {
-            case HOME_BUTTON:
-                return new HomeButtonDrawer();
+//            case HOME_BUTTON:
+//                return new HomeButtonDrawer();
             case SHIP:
                 return new ShipDrawer();
             case TILE:
