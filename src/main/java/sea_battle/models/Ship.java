@@ -160,6 +160,8 @@ public class Ship   // Prototype
         {
             onUnHighlight();
         }
+        isPlaced = false;
+        tiles.clear();
         relocate(initX, initY);
     }
 
@@ -236,5 +238,10 @@ public class Ship   // Prototype
     public boolean isShowingRotateWarning()
     {
         return isShowingRotateWarning;
+    }
+
+    public void setHorizontal(boolean horizontal)
+    {
+        isHorizontal = horizontal;
     }
 }

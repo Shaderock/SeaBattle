@@ -14,7 +14,7 @@ public class InitializingSceneChanger   // Proxy
     private final ArrayList<OnInitializeListener> onInitializeListeners;
     private final ISceneChanger sceneChanger;
 
-    public InitializingSceneChanger(SceneChanger sceneChanger)
+    public InitializingSceneChanger(ISceneChanger sceneChanger)
     {
         this.sceneChanger = sceneChanger;
         onInitializeListeners = new ArrayList<>();

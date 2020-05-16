@@ -10,10 +10,15 @@ import sea_battle.business_logic.game.PlayerNumber;
 import sea_battle.business_logic.placing_handler.IPlacingHandler;
 import sea_battle.business_logic.placing_handler.OnAllShipsPlacedListener;
 import sea_battle.business_logic.placing_handler.PlacingHandler;
+import sea_battle.business_logic.scene_changer.SceneChangerType;
 import sea_battle.business_logic.utils.Converter;
 import sea_battle.business_logic.utils.NodeFinder;
+import sea_battle.business_logic.utils.ShipPlacingRandomizer;
 import sea_battle.models.Constants;
 import sea_battle.models.Ship;
+import sea_battle.models.Tile;
+
+import java.util.ArrayList;
 
 
 public class PVPPlacingController
@@ -21,22 +26,45 @@ public class PVPPlacingController
         implements OnAllShipsPlacedListener
 {
     private Button nextBtn;
-    private Pane stackPaneRoot;
+    private Pane root;
     private boolean[][] player1BattleArea;
     private boolean[][] player2BattleArea;
-    private boolean player1Rdy = false;
+    private boolean player1Rdy;
 
     @Override
     public void onInitialize(Parent root)
     {
         super.onInitialize(root);
-        stackPaneRoot = (Pane) root;
+        this.root = (Pane) root;
 
         nextBtn = (Button) NodeFinder.findNodeById(root, Constants.NEXT_BTN_ID);
+        player1Rdy = false;
 
-        placeShips();
+        placeShips(null);
     }
 
+    @Override
+    protected void randomizeBtnAction()
+    {
+        Converter converter = new Converter();
+        ArrayList<Ship> ships = converter.getShips(root);
+        ArrayList<Tile> tiles = converter.getTiles(root);
+        ArrayList<ArrayList<Tile>> tilesMap = new ArrayList<>();
+        converter.tileArrayTo2DArray(tiles, tilesMap);
+
+        for (Ship ship : ships)
+        {
+            ship.relocateOnInitPos();
+        }
+
+        boolean[][] randomizedMap = ShipPlacingRandomizer.randomizePlacing(ships);
+
+        relocateShipsByBattleArea(ships, tilesMap);
+        onAllShipsPlaced(randomizedMap);
+        placeShips(randomizedMap);
+    }
+
+    @Override
     protected void nextBtnAction()
     {
         if (!player1Rdy)
@@ -46,12 +74,14 @@ public class PVPPlacingController
             nextBtn.setDisable(true);
 
             Converter converter = new Converter();
-            for (Ship ship : converter.getShips(stackPaneRoot))
+            ArrayList<Ship> ships = converter.getShips(root);
+
+            for (Ship ship : ships)
             {
                 ship.relocateOnInitPos();
             }
 
-            placeShips();
+            placeShips(null);
         }
         else
         {
@@ -59,9 +89,9 @@ public class PVPPlacingController
             context.addPlayer(PlayerFactory.buildPlayer(PlayerNumber.ONE, player1BattleArea));
             context.addPlayer(PlayerFactory.buildPlayer(PlayerNumber.TWO, player2BattleArea));
 
-            getSceneChanger().setLoaderFactory(getFactory());
             try
             {
+                setSceneChanger(getFactory().buildSceneChanger(SceneChangerType.INITIALIZING));
                 getSceneChanger().setScene(SceneType.GAME_PVP);
             }
             catch (Exception e)
@@ -83,6 +113,7 @@ public class PVPPlacingController
         {
             player2BattleArea = battleArea;
         }
+
         nextBtn.setDisable(false);
     }
 
@@ -92,10 +123,25 @@ public class PVPPlacingController
         nextBtn.setDisable(true);
     }
 
-    private void placeShips()
+    private void relocateShipsByBattleArea(ArrayList<Ship> ships,
+                                           ArrayList<ArrayList<Tile>> tilesMap)
     {
-        IPlacingHandler placingHandler = new PlacingHandler(stackPaneRoot);
+        for (Ship ship : ships)
+        {
+            double x = tilesMap.get(ship.getTiles().get(0).x).get(ship.getTiles().get(0).y).getMinX();
+            double y = tilesMap.get(ship.getTiles().get(0).x).get(ship.getTiles().get(0).y).getMinY();
+            ship.relocate(x, y);
+        }
+    }
+
+    private void placeShips(boolean[][] randomizedMap)
+    {
+        IPlacingHandler placingHandler = new PlacingHandler(root);
         placingHandler.setOnAllShipsPlacedListener(this);
+        if (randomizedMap != null)
+        {
+            placingHandler.setBattleArea(randomizedMap);
+        }
         placingHandler.handlePlacing();
     }
 }

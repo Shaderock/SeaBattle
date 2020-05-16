@@ -2,7 +2,7 @@ package sea_battle;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import sea_battle.business_logic.PVP_PVC.Factory;
+import sea_battle.business_logic.PVP_PVC.IFactory;
 import sea_battle.business_logic.PVP_PVC.PVCFactory;
 import sea_battle.business_logic.PVP_PVC.PVPFactory;
 import sea_battle.business_logic.SceneType;
@@ -23,7 +23,8 @@ public class App extends Application
         primaryStage.setResizable(false);
         primaryStage.sizeToScene();
 
-        ISceneChanger sceneChanger = SceneChangerFactory.build(SceneChangerType.DEFAULT);
+        SceneChangerFactory sceneChangerFactory = new SceneChangerFactory();
+        ISceneChanger sceneChanger = sceneChangerFactory.buildSceneChanger(SceneChangerType.DEFAULT);
 
         sceneChanger.setScene(SceneType.MAIN);
 
@@ -39,14 +40,12 @@ public class App extends Application
     {
         Context context = Context.getInstance();
 
-        Factory factory = new PVPFactory();
-
-        CustomController pvpPlacingController = (CustomController) factory.buildPlacingController(ControllerType.PVP_PLACING);
-        context.addCustomController(pvpPlacingController);
-        context.addCustomController((CustomController) factory.buildGameController());
+        IFactory factory = new PVPFactory();
+        context.addCustomController((CustomController) factory.buildController(ControllerType.PVP_PLACING));
+        context.addCustomController((CustomController) factory.buildController(ControllerType.PVP_GAME));
 
         factory = new PVCFactory();
-        context.addCustomController((CustomController) factory.buildPlacingController(ControllerType.PVE_PLACING));
-        context.addCustomController((CustomController) factory.buildGameController());
+        context.addCustomController((CustomController) factory.buildController(ControllerType.PVC_PLACING));
+        context.addCustomController((CustomController) factory.buildController(ControllerType.PVC_GAME));
     }
 }

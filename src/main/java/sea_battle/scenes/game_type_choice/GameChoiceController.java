@@ -20,13 +20,14 @@ import java.util.ResourceBundle;
 public class GameChoiceController extends FXMLController
 {
     private InitializingSceneChanger initializingSceneChanger;
-    private Context context;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         super.initialize(location, resources);
-        initializingSceneChanger = (InitializingSceneChanger) SceneChangerFactory.build(SceneChangerType.INITIALIZING);
+        SceneChangerFactory sceneChangerFactory = new SceneChangerFactory();
+        initializingSceneChanger = (InitializingSceneChanger) sceneChangerFactory
+                .buildSceneChanger(SceneChangerType.INITIALIZING);
     }
 
     public void moveToMainMenu(MouseEvent mouseEvent) throws Exception
@@ -63,6 +64,6 @@ public class GameChoiceController extends FXMLController
         }
 
         initializingSceneChanger.setLoaderFactory(new PVCFactory());
-        initializingSceneChanger.setScene(SceneType.SHIPS_PLACING_PVE);
+        initializingSceneChanger.setScene(SceneType.SHIPS_PLACING_PVC);
     }
 }

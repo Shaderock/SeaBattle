@@ -33,12 +33,13 @@ public class MousePressedHandler extends MouseEventHandler
 
         ElementHandler.removeShipPlacing(placingHandler.getBattleArea(), pressedShip);
 
-        pressedShip.onHighlight();
+//        pressedShip.onHighlight();
         if (pressedShip.isShowingRotateWarning())
         {
             pressedShip.removeRotateWarning();
         }
         ElementHandler.highlightTiles(placingHandler, pressedShip);
+        pressedShip.onHighlight();
         placingHandler.setHighlightedShip(pressedShip);
         placingHandler.setDiffX(mouseEvent.getSceneX() - pressedShip.getMinX());
         placingHandler.setDiffY(mouseEvent.getSceneY() - pressedShip.getMinY());

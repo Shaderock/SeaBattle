@@ -23,7 +23,7 @@ public class PlacingHandler     // Facade
 
     private ArrayList<Ship> ships;
     private ArrayList<Tile> tiles;
-    private final boolean[][] battleArea;
+    private boolean[][] battleArea;
     private final ArrayList<ArrayList<Tile>> tilesMap;
 
     private Ship highlightedShip = null;
@@ -74,40 +74,32 @@ public class PlacingHandler     // Facade
         ships = converter.getShips(root);
         rotateButton = (Button) NodeFinder.findNodeById(root, Constants.ROTATE_BTN_ID);
 
-        for (int i = 0; i < 10; i++)
-        {
-            tilesMap.add(new ArrayList<>());
-            for (int j = 0; j < 10; j++)
-            {
-                tilesMap.get(i).add(tiles.get(i + j * 10));
-            }
-        }
-
-        for (Ship ship : ships)
-        {
-            ship.setInitX(ship.getMinX());
-            ship.setInitY(ship.getMinY());
-        }
+        converter.tileArrayTo2DArray(tiles, tilesMap);
     }
 
     public void checkPlacedShips()
     {
-        boolean allShipsPlaced = true;
+        if (listener == null)
+        {
+            return;
+        }
 
         for (Ship ship : ships)
         {
             if (!ship.isPlaced())
             {
-                allShipsPlaced = false;
                 listener.onShipDisplacement();
-                break;
+                return;
             }
         }
 
-        if (allShipsPlaced)
-        {
-            listener.onAllShipsPlaced(battleArea);
-        }
+        listener.onAllShipsPlaced(battleArea);
+    }
+
+    @Override
+    public void setBattleArea(boolean[][] battleArea)
+    {
+        this.battleArea = battleArea;
     }
 
     public void addFocusedTile(Tile tile)

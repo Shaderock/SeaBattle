@@ -1,12 +1,18 @@
 package sea_battle.business_logic.PVP_PVC;
 
-import sea_battle.business_logic.controller.IControllerFactory;
-import sea_battle.business_logic.controller.custom.game.IGameController;
-import sea_battle.business_logic.scene_loader.ISceneLoaderFactory;
+import sea_battle.business_logic.scene_changer.ISceneChangerFactory;
+import sea_battle.business_logic.scene_changer.InitializingSceneChanger;
+import sea_battle.business_logic.scene_changer.SceneChangerFactory;
+import sea_battle.business_logic.scene_changer.SceneChangerType;
 
-public interface Factory    // Abstract factory
-        extends ISceneLoaderFactory,
-        IControllerFactory
+public abstract class Factory implements IFactory
 {
-    IGameController buildGameController();
+    protected InitializingSceneChanger getInitializingSceneChanger()
+    {
+        ISceneChangerFactory sceneChangerFactory = new SceneChangerFactory();
+        InitializingSceneChanger initializingSceneChanger =
+                (InitializingSceneChanger) sceneChangerFactory.buildSceneChanger(SceneChangerType.INITIALIZING);
+        initializingSceneChanger.setLoaderFactory(this);
+        return initializingSceneChanger;
+    }
 }

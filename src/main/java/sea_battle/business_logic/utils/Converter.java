@@ -11,9 +11,21 @@ import java.util.ArrayList;
 
 public class Converter
 {
+    public void tileArrayTo2DArray(ArrayList<Tile> tiles, ArrayList<ArrayList<Tile>> tilesMap)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            tilesMap.add(new ArrayList<>());
+            for (int j = 0; j < 10; j++)
+            {
+                tilesMap.get(i).add(tiles.get(i + j * 10));
+            }
+        }
+    }
+
     public ArrayList<Tile> getTiles(Parent root)
     {
-        Group battleArea = (Group) NodeFinder.findNodeById(root, Constants.BATTLE_AREA_ID);
+        Group battleArea = (Group) NodeFinder.findNodeById(root, Constants.PLACING_BATTLE_AREA_ID);
         ArrayList<Tile> tiles = new ArrayList<>();
 
         for (Node node : battleArea.getChildren())

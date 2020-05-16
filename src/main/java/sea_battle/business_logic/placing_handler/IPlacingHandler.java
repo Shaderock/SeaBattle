@@ -4,5 +4,7 @@ public interface IPlacingHandler
 {
     void handlePlacing();
 
+    void setBattleArea(boolean[][] battleArea);
+
     void setOnAllShipsPlacedListener(OnAllShipsPlacedListener listener);
 }

@@ -7,4 +7,10 @@ public class PVCPlacingController extends ShipsPlacingController
     {
 
     }
+
+    @Override
+    protected void randomizeBtnAction()
+    {
+
+    }
 }

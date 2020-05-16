@@ -20,6 +20,7 @@ public class ShipsPlacingLoader
 {
     private Node battleArea;
     private Node rotateButton;
+    private Node randomizeButton;
 
     @Override
     public Parent loadScene()
@@ -43,11 +44,13 @@ public class ShipsPlacingLoader
     private void alignNodes(NodeAligner nodeAligner)
     {
         nodeAligner.alignNode(rotateButton, Pos.BOTTOM_CENTER);
+        nodeAligner.alignNode(randomizeButton, Pos.TOP_CENTER);
     }
 
     private void marginNodes(NodeAligner nodeAligner)
     {
         nodeAligner.setNodeMargins(rotateButton);
+        nodeAligner.setNodeMargins(randomizeButton);
     }
 
     private void placeNodes()
@@ -61,12 +64,16 @@ public class ShipsPlacingLoader
     {
         IDrawer battleAreaDrawer = DrawerFactory.build(DrawerType.BATTLE_AREA);
         battleArea = battleAreaDrawer.draw();
-        battleArea.setId(Constants.BATTLE_AREA_ID);
+        battleArea.setId(Constants.PLACING_BATTLE_AREA_ID);
 
         ButtonDrawer buttonDrawer = (ButtonDrawer) DrawerFactory.build(DrawerType.BUTTON);
         buttonDrawer.setText("Rotate");
         rotateButton = buttonDrawer.draw();
         rotateButton.setId(Constants.ROTATE_BTN_ID);
+
+        buttonDrawer.setText("Randomize ships");
+        randomizeButton = buttonDrawer.draw();
+        randomizeButton.setId(Constants.RANDOMIZE_BTN_ID);
     }
 
     private void createShips(Pane root)
@@ -83,14 +90,8 @@ public class ShipsPlacingLoader
 
     private void addNodesToRoot(Pane root)
     {
-//        root.getChildren().add(homeButton);
         root.getChildren().add(battleArea);
         root.getChildren().add(rotateButton);
-//        root.getChildren().add(nextButton);
+        root.getChildren().add(randomizeButton);
     }
-
-//    protected StackPane getRoot()
-//    {
-//        return root;
-//    }
 }

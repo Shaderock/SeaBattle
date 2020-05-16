@@ -17,6 +17,6 @@ public class FXMLController
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        setSceneChanger(SceneChangerFactory.build(SceneChangerType.DEFAULT));
+        setSceneChanger(new SceneChangerFactory().buildSceneChanger(SceneChangerType.DEFAULT));
     }
 }
