@@ -26,34 +26,27 @@ public class PVPGameController extends GameController
     }
 
     @Override
-    protected void nextBtnAction()
+    protected boolean onClickAction(MouseEvent event)
     {
-
-    }
-
-    @Override
-    public void endGame()
-    {
-
-    }
-
-    @Override
-    protected void onClickAction(MouseEvent event)
-    {
-        Converter converter = new Converter();
-        ArrayList<Tile> player1PlaceTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA1_ID);
-        ArrayList<Tile> player2PlaceTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA2_ID);
-
-        if (getTurn() == PlayerNumber.TWO)
+        if (super.onClickAction(event))
         {
-            Tile tile = getClickedTile(player1PlaceTiles, event);
-            checkTileOfPlayer(tile, PlayerNumber.ONE);
+            Converter converter = new Converter();
+            ArrayList<Tile> player1PlaceTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA1_ID);
+            ArrayList<Tile> player2PlaceTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA2_ID);
+
+            if (getTurn() == PlayerNumber.TWO)
+            {
+                Tile tile = getClickedTile(player1PlaceTiles, event);
+                checkTileOfPlayer(tile, PlayerNumber.ONE);
+            }
+            else
+            {
+                Tile placeTile = getClickedTile(player2PlaceTiles, event);
+                checkTileOfPlayer(placeTile, PlayerNumber.TWO);
+            }
+            return true;
         }
-        else
-        {
-            Tile placeTile = getClickedTile(player2PlaceTiles, event);
-            checkTileOfPlayer(placeTile, PlayerNumber.TWO);
-        }
+        return false;
     }
 
     private void checkTileOfPlayer(Tile tile, PlayerNumber playerNumber)
@@ -88,9 +81,4 @@ public class PVPGameController extends GameController
         return null;
     }
 
-    @Override
-    public void onNextTurn(PlayerNumber turn)
-    {
-        setTurn(turn);
-    }
 }

@@ -2,8 +2,12 @@ package sea_battle.business_logic.controllers.game;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import sea_battle.Context;
+import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.controllers.NavigationController;
 import sea_battle.business_logic.game.Game;
 import sea_battle.business_logic.game.IPlayer;
@@ -22,6 +26,7 @@ import java.util.ArrayList;
 public abstract class GameController extends NavigationController
         implements IGameController, ShootActionListener
 {
+    private Pane root;
     private Node battleArea1;
     private Node battleArea2;
     private ArrayList<IPlayer> players;
@@ -31,11 +36,23 @@ public abstract class GameController extends NavigationController
     private ArrayList<ArrayList<Tile>> player1GameTilesMap;
     private ArrayList<Tile> player2GameTiles;
     private ArrayList<ArrayList<Tile>> player2GameTilesMap;
+    private Button nextButton;
+    private Label winnerLabel;
+    private Label turnLabel;
+    private boolean gameOver;
 
     @Override
     public void onInitialize(Parent root)
     {
         super.onInitialize(root);
+        this.root = (Pane) root;
+
+        gameOver = false;
+
+        winnerLabel = (Label) NodeFinder.findNodeById(root, Constants.WINNER_LABEL_ID);
+        winnerLabel.setVisible(false);
+
+        turnLabel = (Label) NodeFinder.findNodeById(root, Constants.TURN_LABEL_ID);
 
         Context context = Context.getInstance();
         players = context.getPlayers();
@@ -58,15 +75,23 @@ public abstract class GameController extends NavigationController
         game.setonActionListener(this);
 
         root.setOnMouseClicked(this::onClickAction);
+
+        nextButton = (Button) NodeFinder.findNodeById(root, Constants.NEXT_BTN_ID);
+        nextButton.setText("Play again");
+        nextButton.setVisible(false);
     }
 
-    protected abstract void onClickAction(MouseEvent event);
+    protected boolean onClickAction(MouseEvent event)
+    {
+        return !gameOver;
+    }
 
     @Override
     public void loadGameData()
     {
         game = new Game();
-        turn = game.randomFirstTurn();
+//        turn = game.randomFirstTurn();
+        onNextTurn(game.randomFirstTurn());
         System.out.println(turn);
     }
 
@@ -137,6 +162,42 @@ public abstract class GameController extends NavigationController
         gameTile.onMiss();
     }
 
+    @Override
+    public void onNextTurn(PlayerNumber turn)
+    {
+        setTurn(turn);
+        if (turn == PlayerNumber.ONE)
+        {
+            turnLabel.setText("------------------>>");
+        }
+        else
+        {
+            turnLabel.setText("<<------------------");
+        }
+    }
+
+    @Override
+    public void onGameOver(PlayerNumber winner)
+    {
+        gameOver = true;
+        nextButton.setVisible(true);
+        nextButton.setDisable(false);
+        winnerLabel.setVisible(true);
+
+        announceTheWinner(winner);
+    }
+
+    @Override
+    protected void nextBtnAction()
+    {
+        setFXMLScene(SceneType.GAME_TYPE_CHOICE);
+    }
+
+    protected void announceTheWinner(PlayerNumber winner)
+    {
+        winnerLabel.setText("Player " + winner + " wins");
+    }
+
     private GameTile getGameTile(Point shipPart, ArrayList<ArrayList<Tile>> playerGameTilesMap)
     {
         Tile tile = playerGameTilesMap.get(shipPart.x).get(shipPart.y);
@@ -153,6 +214,11 @@ public abstract class GameController extends NavigationController
         return battleArea2;
     }
 
+    protected Label getWinnerLabel()
+    {
+        return winnerLabel;
+    }
+
     protected ArrayList<IPlayer> getPlayers()
     {
         return players;
@@ -166,6 +232,11 @@ public abstract class GameController extends NavigationController
     protected PlayerNumber getTurn()
     {
         return turn;
+    }
+
+    public Button getNextButton()
+    {
+        return nextButton;
     }
 
     protected void setTurn(PlayerNumber turn)

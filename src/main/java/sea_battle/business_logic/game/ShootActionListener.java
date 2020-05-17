@@ -12,4 +12,6 @@ public interface ShootActionListener
     void onMiss(Point tile, PlayerNumber target);
 
     void onNextTurn(PlayerNumber turn);
+
+    void onGameOver(PlayerNumber winner);
 }

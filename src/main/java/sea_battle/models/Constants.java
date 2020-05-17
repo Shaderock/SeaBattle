@@ -13,4 +13,6 @@ public class Constants
     public static final String PLACING_BATTLE_AREA_ID = "battleArea";
     public static final String PLAYING_BATTLE_AREA1_ID = "battleArea1";
     public static final String PLAYING_BATTLE_AREA2_ID = "battleArea2";
+    public static final String WINNER_LABEL_ID = "winnerLabel";
+    public static final String TURN_LABEL_ID = "turnLabel";
 }

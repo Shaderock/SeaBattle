@@ -27,6 +27,18 @@ public class Game
                 {
                     listener.onShipDestroyed(ship, target.getPlayerNumber());
                 }
+
+                if (playerHasNotDestroyedShips(target))
+                {
+                    if (target.getPlayerNumber() == PlayerNumber.ONE)
+                    {
+                        listener.onGameOver(PlayerNumber.TWO);
+                    }
+                    else
+                    {
+                        listener.onGameOver(PlayerNumber.ONE);
+                    }
+                }
             }
             else
             {
@@ -36,6 +48,21 @@ public class Game
                 System.out.println(turn);
             }
         }
+    }
+
+    private boolean playerHasNotDestroyedShips(IPlayer target)
+    {
+        for (int i = 0; i < target.getShipsArea().length; i++)
+        {
+            for (int j = 0; j < target.getShipsArea().length; j++)
+            {
+                if (target.getShipsArea()[i][j] && !target.getBattleArea()[i][j])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private ArrayList<Point> checkShipDestroyed(IPlayer target, Point point)
