@@ -29,7 +29,7 @@ public class AccessibleHandler
     {
         boolean isTileFound = false;
 
-        for (Tile tile : placingHandler.getPlaceTiles())
+        for (Tile tile : placingHandler.getTiles())
         {
             if (AccessibleHandler.pointInsideElementArea(tile, focusedShip.getMinX(),
                     focusedShip.getMinY() + (Constants.TILE_SIZE >> 1)))
@@ -80,7 +80,7 @@ public class AccessibleHandler
 
     private static void unHighlightTiles(PlacingHandler placingHandler)
     {
-        for (Tile anotherTile : placingHandler.getPlaceTiles())
+        for (Tile anotherTile : placingHandler.getTiles())
         {
             PlaceTile placeTile = (PlaceTile) anotherTile;
             placeTile.onUnHighlight();

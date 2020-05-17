@@ -21,6 +21,8 @@ public class GameLoader extends NavigationLoader
     private Group battleArea2;
     private Label winnerLabel;
     private Label turnLabel;
+    private Label player1Label;
+    private Label player2Label;
 
     @Override
     public Parent loadScene()
@@ -42,16 +44,25 @@ public class GameLoader extends NavigationLoader
     {
         root.getChildren().add(winnerLabel);
         root.getChildren().add(turnLabel);
+        root.getChildren().add(player1Label);
+        root.getChildren().add(player2Label);
     }
 
     private void placeLabels()
     {
         INodeAligner nodeAligner = NodeAlignerFactory.build();
+
         nodeAligner.alignNode(winnerLabel, Pos.TOP_CENTER);
         nodeAligner.setNodeMargins(winnerLabel);
 
         nodeAligner.alignNode(turnLabel, Pos.BOTTOM_CENTER);
         nodeAligner.setNodeMargins(turnLabel);
+
+        nodeAligner.alignNode(player1Label, Pos.BOTTOM_LEFT);
+        nodeAligner.setNodeMargins(player1Label);
+
+        nodeAligner.alignNode(player2Label, Pos.BOTTOM_RIGHT);
+        nodeAligner.setNodeMargins(player2Label);
     }
 
     private void createLabels()
@@ -63,6 +74,14 @@ public class GameLoader extends NavigationLoader
         turnLabel = new Label();
         turnLabel.setId(Constants.TURN_LABEL_ID);
         turnLabel.setFont(Font.font("System", 60));
+
+        player1Label = new Label();
+        player1Label.setId(Constants.PLAYER1_LABEL_ID);
+        player1Label.setFont(Font.font("System", 40));
+
+        player2Label = new Label();
+        player2Label.setId(Constants.PLAYER2_LABEL_ID);
+        player2Label.setFont(Font.font("System", 40));
     }
 
     private void createBattleAreas()

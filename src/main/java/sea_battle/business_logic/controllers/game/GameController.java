@@ -1,11 +1,9 @@
 package sea_battle.business_logic.controllers.game;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import sea_battle.Context;
 import sea_battle.business_logic.SceneType;
 import sea_battle.business_logic.controllers.NavigationController;
@@ -13,6 +11,7 @@ import sea_battle.business_logic.game.Game;
 import sea_battle.business_logic.game.IPlayer;
 import sea_battle.business_logic.game.PlayerNumber;
 import sea_battle.business_logic.game.ShootActionListener;
+import sea_battle.business_logic.utils.AccessibleHandler;
 import sea_battle.business_logic.utils.Converter;
 import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.business_logic.utils.PlayerHandler;
@@ -26,15 +25,10 @@ import java.util.ArrayList;
 public abstract class GameController extends NavigationController
         implements IGameController, ShootActionListener
 {
-    private Pane root;
-    private Node battleArea1;
-    private Node battleArea2;
     private ArrayList<IPlayer> players;
     private Game game;
     private PlayerNumber turn;
-    private ArrayList<Tile> player1GameTiles;
     private ArrayList<ArrayList<Tile>> player1GameTilesMap;
-    private ArrayList<Tile> player2GameTiles;
     private ArrayList<ArrayList<Tile>> player2GameTilesMap;
     private Button nextButton;
     private Label winnerLabel;
@@ -45,7 +39,6 @@ public abstract class GameController extends NavigationController
     public void onInitialize(Parent root)
     {
         super.onInitialize(root);
-        this.root = (Pane) root;
 
         gameOver = false;
 
@@ -57,12 +50,9 @@ public abstract class GameController extends NavigationController
         Context context = Context.getInstance();
         players = context.getPlayers();
 
-        battleArea1 = NodeFinder.findNodeById(root, Constants.PLAYING_BATTLE_AREA1_ID);
-        battleArea2 = NodeFinder.findNodeById(root, Constants.PLAYING_BATTLE_AREA2_ID);
-
         Converter converter = new Converter();
-        player1GameTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA1_ID);
-        player2GameTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA2_ID);
+        ArrayList<Tile> player1GameTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA1_ID);
+        ArrayList<Tile> player2GameTiles = converter.getTiles(root, Constants.PLAYING_BATTLE_AREA2_ID);
 
         player1GameTilesMap = new ArrayList<>();
         player2GameTilesMap = new ArrayList<>();
@@ -90,9 +80,7 @@ public abstract class GameController extends NavigationController
     public void loadGameData()
     {
         game = new Game();
-//        turn = game.randomFirstTurn();
         onNextTurn(game.randomFirstTurn());
-        System.out.println(turn);
     }
 
     @Override
@@ -204,16 +192,6 @@ public abstract class GameController extends NavigationController
         return (GameTile) tile;
     }
 
-    protected Node getBattleArea1()
-    {
-        return battleArea1;
-    }
-
-    protected Node getBattleArea2()
-    {
-        return battleArea2;
-    }
-
     protected Label getWinnerLabel()
     {
         return winnerLabel;
@@ -242,5 +220,49 @@ public abstract class GameController extends NavigationController
     protected void setTurn(PlayerNumber turn)
     {
         this.turn = turn;
+    }
+
+    protected Tile getClickedTile(ArrayList<Tile> tiles, MouseEvent event)
+    {
+        for (Tile tile : tiles)
+        {
+            if (AccessibleHandler.eventInsideElementArea(tile, event))
+            {
+                return tile;
+            }
+        }
+        return null;
+    }
+
+    protected void checkTileOfPlayer(Tile tile, PlayerNumber playerNumber)
+    {
+        if (tile != null)
+        {
+            IPlayer player = PlayerHandler.findPlayer(getPlayers(), playerNumber);
+
+            assert player != null;
+            shoot(tile, player);
+        }
+    }
+
+    protected void shoot(Tile tile, IPlayer player)
+    {
+        if (!player.getBattleArea()[tile.getRow()][tile.getColumn()])
+        {
+            getGame().shoot(player, new Point(tile.getRow(), tile.getColumn()));
+        }
+    }
+
+    protected void shoot(Point tile, IPlayer player)
+    {
+        if (!player.getBattleArea()[tile.x][tile.y])
+        {
+            getGame().shoot(player, new Point(tile.x, tile.y));
+        }
+    }
+
+    public boolean gameContinues()
+    {
+        return !gameOver;
     }
 }

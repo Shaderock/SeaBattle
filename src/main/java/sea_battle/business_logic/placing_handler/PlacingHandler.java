@@ -23,7 +23,7 @@ public class PlacingHandler     // Facade
     private Button rotateButton;
 
     private ArrayList<Ship> ships;
-    private ArrayList<Tile> placeTiles;
+    private ArrayList<Tile> tiles;
     private boolean[][] battleArea;
     private final ArrayList<ArrayList<Tile>> tilesMap;
 
@@ -71,11 +71,11 @@ public class PlacingHandler     // Facade
     private void extractFromRoot()
     {
         Converter converter = new Converter();
-        placeTiles = converter.getTiles(root);
+        tiles = converter.getTiles(root);
         ships = converter.getShips(root);
         rotateButton = (Button) NodeFinder.findNodeById(root, Constants.ROTATE_BTN_ID);
 
-        converter.tileArrayTo2DArray(placeTiles, tilesMap);
+        converter.tileArrayTo2DArray(tiles, tilesMap);
     }
 
     public void checkPlacedShips()
@@ -118,9 +118,9 @@ public class PlacingHandler     // Facade
         return ships;
     }
 
-    public ArrayList<Tile> getPlaceTiles()
+    public ArrayList<Tile> getTiles()
     {
-        return placeTiles;
+        return tiles;
     }
 
     public Ship getHighlightedShip()

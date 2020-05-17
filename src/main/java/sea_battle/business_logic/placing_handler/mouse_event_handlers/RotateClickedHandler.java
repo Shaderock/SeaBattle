@@ -57,8 +57,8 @@ public class RotateClickedHandler implements IMouseEventHandler
                 AccessibleHandler.removeShipPlacing(battleArea, ship);
                 updateAxisContext(ship, battleArea, minX, minY, shipSize, isHorizontal, minAxis);
 
-                Tile placeTile = getTile(placingHandler, minX, minY, isHorizontal, minAxis);
-                placeShip(ship, placeTile);
+                Tile tile = getTile(placingHandler, minX, minY, isHorizontal, minAxis);
+                placeShip(ship, tile);
 
                 return true;
             }
