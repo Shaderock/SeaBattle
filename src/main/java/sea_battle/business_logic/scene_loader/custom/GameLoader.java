@@ -4,9 +4,9 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import sea_battle.business_logic.drawers.BattleAreaDrawer;
 import sea_battle.business_logic.drawers.DrawerFactory;
 import sea_battle.business_logic.drawers.DrawerType;
-import sea_battle.business_logic.drawers.IDrawer;
 import sea_battle.models.Constants;
 
 public class GameLoader extends NavigationLoader
@@ -29,7 +29,8 @@ public class GameLoader extends NavigationLoader
 
     private void createBattleAreas()
     {
-        IDrawer battleAreaDrawer = DrawerFactory.build(DrawerType.BATTLE_AREA);
+        BattleAreaDrawer battleAreaDrawer = (BattleAreaDrawer) DrawerFactory.build(DrawerType.BATTLE_AREA);
+        battleAreaDrawer.setTileType(DrawerType.GAME_TILE);
 
         battleArea1 = battleAreaDrawer.draw();
         battleArea2 = (Group) battleAreaDrawer.draw();

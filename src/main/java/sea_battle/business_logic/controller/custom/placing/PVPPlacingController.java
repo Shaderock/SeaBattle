@@ -48,9 +48,9 @@ public class PVPPlacingController
     {
         Converter converter = new Converter();
         ArrayList<Ship> ships = converter.getShips(root);
-        ArrayList<Tile> tiles = converter.getTiles(root);
+        ArrayList<Tile> placeTiles = converter.getTiles(root);
         ArrayList<ArrayList<Tile>> tilesMap = new ArrayList<>();
-        converter.tileArrayTo2DArray(tiles, tilesMap);
+        converter.tileArrayTo2DArray(placeTiles, tilesMap);
 
         for (Ship ship : ships)
         {
@@ -86,6 +86,7 @@ public class PVPPlacingController
         else
         {
             Context context = Context.getInstance();
+            context.getPlayers().clear();
             context.addPlayer(PlayerFactory.buildPlayer(PlayerNumber.ONE, player1BattleArea));
             context.addPlayer(PlayerFactory.buildPlayer(PlayerNumber.TWO, player2BattleArea));
 

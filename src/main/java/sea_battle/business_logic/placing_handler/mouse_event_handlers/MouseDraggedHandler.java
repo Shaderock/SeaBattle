@@ -2,7 +2,7 @@ package sea_battle.business_logic.placing_handler.mouse_event_handlers;
 
 import javafx.scene.input.MouseEvent;
 import sea_battle.business_logic.placing_handler.PlacingHandler;
-import sea_battle.business_logic.utils.ElementHandler;
+import sea_battle.business_logic.utils.AccessibleHandler;
 import sea_battle.models.Ship;
 
 public class MouseDraggedHandler extends MouseEventHandler
@@ -17,7 +17,7 @@ public class MouseDraggedHandler extends MouseEventHandler
             focusedShip.relocate(mouseEvent.getSceneX() - placingHandler.getDiffX(),
                     mouseEvent.getSceneY() - placingHandler.getDiffY());
 
-            ElementHandler.highlightTiles(placingHandler, focusedShip);
+            AccessibleHandler.highlightTiles(placingHandler, focusedShip);
         }
     }
 }

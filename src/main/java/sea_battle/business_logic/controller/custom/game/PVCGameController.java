@@ -1,5 +1,8 @@
 package sea_battle.business_logic.controller.custom.game;
 
+import javafx.scene.input.MouseEvent;
+import sea_battle.business_logic.game.PlayerNumber;
+
 public class PVCGameController extends GameController
 {
     @Override
@@ -9,13 +12,19 @@ public class PVCGameController extends GameController
     }
 
     @Override
-    public void startGame()
+    public void endGame()
     {
 
     }
 
     @Override
-    public void endGame()
+    protected void onClickAction(MouseEvent event)
+    {
+
+    }
+
+    @Override
+    public void onNextTurn(PlayerNumber turn)
     {
 
     }

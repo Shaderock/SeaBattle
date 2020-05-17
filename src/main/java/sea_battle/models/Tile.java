@@ -1,45 +1,20 @@
 package sea_battle.models;
 
-
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sea_battle.models.abstractions.Accessible;
-import sea_battle.models.abstractions.Element;
-import sea_battle.models.abstractions.Highlightable;
 
 public class Tile
         extends Rectangle
-        implements Highlightable, Accessible, Element
+        implements Accessible
 {
     private Paint initColor;
-    private boolean isHighlighted;
     private int column;
     private int row;
 
     public Tile(double width, double height)
     {
         super(width, height);
-    }
-
-    @Override
-    public void onHighlight()
-    {
-        isHighlighted = true;
-        this.setFill(Color.LIGHTGREEN);
-    }
-
-    @Override
-    public void onUnHighlight()
-    {
-        isHighlighted = false;
-        this.setFill(initColor);
-    }
-
-    @Override
-    public boolean isHighlighted()
-    {
-        return isHighlighted;
     }
 
     @Override
@@ -89,5 +64,10 @@ public class Tile
     public void setInitColor(Paint initColor)
     {
         this.initColor = initColor;
+    }
+
+    protected Paint getInitColor()
+    {
+        return initColor;
     }
 }

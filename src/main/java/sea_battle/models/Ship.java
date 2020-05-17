@@ -7,7 +7,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import sea_battle.models.abstractions.Accessible;
 import sea_battle.models.abstractions.Element;
-import sea_battle.models.abstractions.Highlightable;
 import sea_battle.models.abstractions.Rotational;
 
 import java.awt.*;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 public class Ship   // Prototype
         extends Group
-        implements Highlightable, Accessible, Element, Rotational
+        implements Accessible, Element, Rotational
 {
     private Paint strokeInitColor;
     private double initStrokeWidth;

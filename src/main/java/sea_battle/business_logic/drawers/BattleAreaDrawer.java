@@ -3,11 +3,14 @@ package sea_battle.business_logic.drawers;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
+import sea_battle.business_logic.drawers.tiles.TileDrawer;
 import sea_battle.models.Constants;
 import sea_battle.models.Tile;
 
 public class BattleAreaDrawer implements IDrawer
 {
+    private DrawerType tileType = DrawerType.PLACE_TILE;
+
     @Override
     public Node draw()
     {
@@ -19,11 +22,12 @@ public class BattleAreaDrawer implements IDrawer
         {
             for (int y = 0; y < amountOfTiles; y++)
             {
-                TileDrawer tileDrawer = (TileDrawer) DrawerFactory.build(DrawerType.TILE);
+                TileDrawer tileDrawer = (TileDrawer) DrawerFactory.build(tileType);
 
                 tileDrawer.setFillColor(Color.WHITESMOKE);
                 tileDrawer.setStrokeColor(Color.DARKGRAY);
 
+//                PlaceTile placeTile = (PlaceTile) tileDrawer.draw();
                 Tile tile = (Tile) tileDrawer.draw();
                 tile.setColumn(x);
                 tile.setRow(y);
@@ -36,5 +40,10 @@ public class BattleAreaDrawer implements IDrawer
         }
 
         return group;
+    }
+
+    public void setTileType(DrawerType tileType)
+    {
+        this.tileType = tileType;
     }
 }

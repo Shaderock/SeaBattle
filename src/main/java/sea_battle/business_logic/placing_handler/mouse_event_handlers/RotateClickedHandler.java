@@ -2,8 +2,8 @@ package sea_battle.business_logic.placing_handler.mouse_event_handlers;
 
 import javafx.scene.input.MouseEvent;
 import sea_battle.business_logic.placing_handler.PlacingHandler;
+import sea_battle.business_logic.utils.AccessibleHandler;
 import sea_battle.business_logic.utils.ArrayHandler;
-import sea_battle.business_logic.utils.ElementHandler;
 import sea_battle.models.Ship;
 import sea_battle.models.Tile;
 
@@ -34,7 +34,7 @@ public class RotateClickedHandler implements IMouseEventHandler
         int minY = clonedShip.getTiles().get(0).y;
         int shipSize = ship.getSize();
         boolean isHorizontal = ship.isHorizontal();
-        ElementHandler.removeShipPlacing(clonedBattleArea, clonedShip);
+        AccessibleHandler.removeShipPlacing(clonedBattleArea, clonedShip);
 
         for (int i = 0; i < 2; i++)
         {
@@ -54,11 +54,11 @@ public class RotateClickedHandler implements IMouseEventHandler
 
             if (canRotate(clonedBattleArea, minX, minY, isHorizontal, minAxis, maxAxis))
             {
-                ElementHandler.removeShipPlacing(battleArea, ship);
+                AccessibleHandler.removeShipPlacing(battleArea, ship);
                 updateAxisContext(ship, battleArea, minX, minY, shipSize, isHorizontal, minAxis);
 
-                Tile tile = getTile(placingHandler, minX, minY, isHorizontal, minAxis);
-                placeShip(ship, tile);
+                Tile placeTile = getTile(placingHandler, minX, minY, isHorizontal, minAxis);
+                placeShip(ship, placeTile);
 
                 return true;
             }
@@ -117,10 +117,10 @@ public class RotateClickedHandler implements IMouseEventHandler
         return tile;
     }
 
-    private void placeShip(Ship ship, Tile tile)
+    private void placeShip(Ship ship, Tile placeTile)
     {
         ship.setPlaced(true);
-        ship.relocate(tile.getMinX(), tile.getMinY());
+        ship.relocate(placeTile.getMinX(), placeTile.getMinY());
         ship.switchOrientation();
     }
 
@@ -137,7 +137,7 @@ public class RotateClickedHandler implements IMouseEventHandler
 
     private boolean isOccupied(boolean[][] clonedBattleArea, int col, int row, boolean b, boolean b2)
     {
-        return ElementHandler.tileIsOccupied(row, col, clonedBattleArea) ||
+        return AccessibleHandler.tileIsOccupied(row, col, clonedBattleArea) ||
                 b || b2;
     }
 

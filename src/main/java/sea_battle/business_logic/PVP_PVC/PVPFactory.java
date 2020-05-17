@@ -46,7 +46,7 @@ public class PVPFactory extends Factory
     }
 
     @Override
-    public ISceneChanger buildSceneChanger(SceneChangerType sceneChangerType)
+    public ISceneChanger buildSceneChanger(SceneChangerType sceneChangerType)   // TODO: refactor
     {
         InitializingSceneChanger initializingSceneChanger = getInitializingSceneChanger();
 

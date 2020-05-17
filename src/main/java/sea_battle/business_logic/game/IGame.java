@@ -1,10 +1,17 @@
 package sea_battle.business_logic.game;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public interface IGame
 {
-    void shoot(Player whoShoots, Point point);
+    void shoot(IPlayer target, Point point);
 
-    void setBattleAreas(boolean[][] battleArea1, boolean[][] battleArea2);
+    void setPlayers(ArrayList<IPlayer> players);
+
+    PlayerNumber randomFirstTurn();
+
+    PlayerNumber getTurn();
+
+    PlayerNumber nextTurn();
 }

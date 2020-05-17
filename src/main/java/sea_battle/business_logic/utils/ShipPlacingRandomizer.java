@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class ShipPlacingRandomizer
 {
-    public static boolean[][] randomizePlacing(ArrayList<Ship> ships)   // вроде работает норм
+    public static boolean[][] randomizePlacing(ArrayList<Ship> ships)
     {
         boolean[][] map = new boolean[10][10];
 

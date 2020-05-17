@@ -9,6 +9,7 @@ import sea_battle.business_logic.placing_handler.mouse_event_handlers.IMouseEven
 import sea_battle.business_logic.utils.Converter;
 import sea_battle.business_logic.utils.NodeFinder;
 import sea_battle.models.Constants;
+import sea_battle.models.PlaceTile;
 import sea_battle.models.Ship;
 import sea_battle.models.Tile;
 
@@ -22,12 +23,12 @@ public class PlacingHandler     // Facade
     private Button rotateButton;
 
     private ArrayList<Ship> ships;
-    private ArrayList<Tile> tiles;
+    private ArrayList<Tile> placeTiles;
     private boolean[][] battleArea;
     private final ArrayList<ArrayList<Tile>> tilesMap;
 
     private Ship highlightedShip = null;
-    private final ArrayList<Tile> focusedTiles;
+    private final ArrayList<PlaceTile> focusedPlaceTiles;
     private double diffX;
     private double diffY;
 
@@ -40,7 +41,7 @@ public class PlacingHandler     // Facade
     {
         this.root = (Pane) root;
 
-        focusedTiles = new ArrayList<>();
+        focusedPlaceTiles = new ArrayList<>();
         battleArea = new boolean[10][10];
         tilesMap = new ArrayList<>();
 
@@ -70,11 +71,11 @@ public class PlacingHandler     // Facade
     private void extractFromRoot()
     {
         Converter converter = new Converter();
-        tiles = converter.getTiles(root);
+        placeTiles = converter.getTiles(root);
         ships = converter.getShips(root);
         rotateButton = (Button) NodeFinder.findNodeById(root, Constants.ROTATE_BTN_ID);
 
-        converter.tileArrayTo2DArray(tiles, tilesMap);
+        converter.tileArrayTo2DArray(placeTiles, tilesMap);
     }
 
     public void checkPlacedShips()
@@ -102,9 +103,9 @@ public class PlacingHandler     // Facade
         this.battleArea = battleArea;
     }
 
-    public void addFocusedTile(Tile tile)
+    public void addFocusedTile(PlaceTile placeTile)
     {
-        focusedTiles.add(tile);
+        focusedPlaceTiles.add(placeTile);
     }
 
     public void setOnAllShipsPlacedListener(OnAllShipsPlacedListener listener)
@@ -117,9 +118,9 @@ public class PlacingHandler     // Facade
         return ships;
     }
 
-    public ArrayList<Tile> getTiles()
+    public ArrayList<Tile> getPlaceTiles()
     {
-        return tiles;
+        return placeTiles;
     }
 
     public Ship getHighlightedShip()
@@ -132,9 +133,9 @@ public class PlacingHandler     // Facade
         this.highlightedShip = focusedShip;
     }
 
-    public ArrayList<Tile> getFocusedTiles()
+    public ArrayList<PlaceTile> getFocusedPlaceTiles()
     {
-        return focusedTiles;
+        return focusedPlaceTiles;
     }
 
     public double getDiffX()

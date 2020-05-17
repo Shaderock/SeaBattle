@@ -3,25 +3,17 @@ package sea_battle.business_logic.utils;
 import javafx.scene.input.MouseEvent;
 import sea_battle.business_logic.placing_handler.PlacingHandler;
 import sea_battle.models.Constants;
+import sea_battle.models.PlaceTile;
 import sea_battle.models.Ship;
 import sea_battle.models.Tile;
 import sea_battle.models.abstractions.Accessible;
 
 import java.awt.*;
 
-public class ElementHandler
+public class AccessibleHandler
 {
     public static boolean eventInsideElementArea(Accessible accessibleElement, MouseEvent mouseEvent)
     {
-//        System.out.println("---------");
-//        System.out.println("mouseX= " + mouseEvent.getX() +
-//                " mouseY= " + mouseEvent.getY());
-//        System.out.println("elemMinX= " + accessibleElement.getMinX());
-//        System.out.println("elemMaxX= " + accessibleElement.getMaxX());
-//        System.out.println("elemMinY= " + accessibleElement.getMinY());
-//        System.out.println("elemMaxY= " + accessibleElement.getMaxY());
-//        System.out.println("-----------");
-
         return pointInsideElementArea(accessibleElement, mouseEvent.getX(), mouseEvent.getY());
     }
 
@@ -37,9 +29,9 @@ public class ElementHandler
     {
         boolean isTileFound = false;
 
-        for (Tile tile : placingHandler.getTiles())
+        for (Tile tile : placingHandler.getPlaceTiles())
         {
-            if (ElementHandler.pointInsideElementArea(tile, focusedShip.getMinX(),
+            if (AccessibleHandler.pointInsideElementArea(tile, focusedShip.getMinX(),
                     focusedShip.getMinY() + (Constants.TILE_SIZE >> 1)))
             {
                 isTileFound = true;
@@ -54,33 +46,33 @@ public class ElementHandler
         }
     }
 
-    private static void checkTiles(PlacingHandler placingHandler, Ship focusedShip, Tile tile)
+    private static void checkTiles(PlacingHandler placingHandler, Ship focusedShip, Tile placeTile)
     {
         if (focusedShip.isHorizontal())
         {
-            if (10 - focusedShip.getSize() >= tile.getColumn() &&
-                    checkNeighboringTiles(placingHandler, focusedShip, tile))
+            if (10 - focusedShip.getSize() >= placeTile.getColumn() &&
+                    checkNeighboringTiles(placingHandler, focusedShip, placeTile))
             {
                 for (int i = 0; i < focusedShip.getSize(); i++)
                 {
-                    Tile tileToHighlight =
-                            placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
-                    tileToHighlight.onHighlight();
-                    placingHandler.addFocusedTile(tileToHighlight);
+                    PlaceTile placeTileToHighlight =
+                            (PlaceTile) placingHandler.getTilesMap().get(placeTile.getRow()).get(placeTile.getColumn() + i);
+                    placeTileToHighlight.onHighlight();
+                    placingHandler.addFocusedTile(placeTileToHighlight);
                 }
             }
         }
         else
         {
-            if (10 - focusedShip.getSize() >= tile.getRow() &&
-                    checkNeighboringTiles(placingHandler, focusedShip, tile))
+            if (10 - focusedShip.getSize() >= placeTile.getRow() &&
+                    checkNeighboringTiles(placingHandler, focusedShip, placeTile))
             {
                 for (int i = 0; i < focusedShip.getSize(); i++)
                 {
-                    Tile tileToHighlight =
-                            placingHandler.getTilesMap().get(tile.getRow() + i).get(tile.getColumn());
-                    tileToHighlight.onHighlight();
-                    placingHandler.addFocusedTile(tileToHighlight);
+                    PlaceTile placeTileToHighlight =
+                            (PlaceTile) placingHandler.getTilesMap().get(placeTile.getRow() + i).get(placeTile.getColumn());
+                    placeTileToHighlight.onHighlight();
+                    placingHandler.addFocusedTile(placeTileToHighlight);
                 }
             }
         }
@@ -88,35 +80,36 @@ public class ElementHandler
 
     private static void unHighlightTiles(PlacingHandler placingHandler)
     {
-        for (Tile anotherTile : placingHandler.getTiles())
+        for (Tile anotherPlaceTile : placingHandler.getPlaceTiles())
         {
-            anotherTile.onUnHighlight();
+            PlaceTile placeTile = (PlaceTile) anotherPlaceTile;
+            placeTile.onUnHighlight();
         }
-        placingHandler.getFocusedTiles().clear();
+        placingHandler.getFocusedPlaceTiles().clear();
     }
 
-    private static boolean checkNeighboringTiles(PlacingHandler placingHandler, Ship focusedShip, Tile tile)
+    private static boolean checkNeighboringTiles(PlacingHandler placingHandler, Ship focusedShip, Tile placeTile)
     {
         boolean[][] map = placingHandler.getBattleArea();
 
         for (int i = 0; i < focusedShip.getSize(); i++)
         {
-            if (tile.getColumn() + i > 9)
+            if (placeTile.getColumn() + i > 9)
             {
                 continue;
             }
-            Tile tileToCheck;
+            Tile placeTileToCheck;
 
             if (focusedShip.isHorizontal())
             {
-                tileToCheck = placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
+                placeTileToCheck = placingHandler.getTilesMap().get(placeTile.getRow()).get(placeTile.getColumn() + i);
             }
             else
             {
-                tileToCheck = placingHandler.getTilesMap().get(tile.getRow() + i).get(tile.getColumn());
+                placeTileToCheck = placingHandler.getTilesMap().get(placeTile.getRow() + i).get(placeTile.getColumn());
             }
 
-            if (tileIsOccupied(tileToCheck.getRow(), tileToCheck.getColumn(), map))
+            if (tileIsOccupied(placeTileToCheck.getRow(), placeTileToCheck.getColumn(), map))
             {
                 return false;
             }
@@ -142,11 +135,11 @@ public class ElementHandler
 
     public static void unHighlightAllElements(PlacingHandler placingHandler)
     {
-        for (Tile focusedTile : placingHandler.getFocusedTiles())
+        for (PlaceTile focusedPlaceTile : placingHandler.getFocusedPlaceTiles())
         {
-            focusedTile.onUnHighlight();
+            focusedPlaceTile.onUnHighlight();
         }
-        placingHandler.getFocusedTiles().clear();
+        placingHandler.getFocusedPlaceTiles().clear();
 
         for (Ship ship : placingHandler.getShips())
         {

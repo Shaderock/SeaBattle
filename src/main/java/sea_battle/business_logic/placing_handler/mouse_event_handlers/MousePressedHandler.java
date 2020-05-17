@@ -2,7 +2,7 @@ package sea_battle.business_logic.placing_handler.mouse_event_handlers;
 
 import javafx.scene.input.MouseEvent;
 import sea_battle.business_logic.placing_handler.PlacingHandler;
-import sea_battle.business_logic.utils.ElementHandler;
+import sea_battle.business_logic.utils.AccessibleHandler;
 import sea_battle.models.Ship;
 
 public class MousePressedHandler extends MouseEventHandler
@@ -20,7 +20,7 @@ public class MousePressedHandler extends MouseEventHandler
         }
         else
         {
-            ElementHandler.unHighlightAllElements(placingHandler);
+            AccessibleHandler.unHighlightAllElements(placingHandler);
         }
     }
 
@@ -31,14 +31,14 @@ public class MousePressedHandler extends MouseEventHandler
             handleHighlightedShipExists(placingHandler, pressedShip);
         }
 
-        ElementHandler.removeShipPlacing(placingHandler.getBattleArea(), pressedShip);
+        AccessibleHandler.removeShipPlacing(placingHandler.getBattleArea(), pressedShip);
 
 //        pressedShip.onHighlight();
         if (pressedShip.isShowingRotateWarning())
         {
             pressedShip.removeRotateWarning();
         }
-        ElementHandler.highlightTiles(placingHandler, pressedShip);
+        AccessibleHandler.highlightTiles(placingHandler, pressedShip);
         pressedShip.onHighlight();
         placingHandler.setHighlightedShip(pressedShip);
         placingHandler.setDiffX(mouseEvent.getSceneX() - pressedShip.getMinX());
@@ -51,7 +51,7 @@ public class MousePressedHandler extends MouseEventHandler
 
         if (highlightedShip == pressedShip)
         {
-            ElementHandler.removeShipPlacing(placingHandler.getBattleArea(), highlightedShip);
+            AccessibleHandler.removeShipPlacing(placingHandler.getBattleArea(), highlightedShip);
         }
         else
         {
@@ -66,7 +66,7 @@ public class MousePressedHandler extends MouseEventHandler
     {
         for (Ship ship : placingHandler.getShips())
         {
-            if (ElementHandler.eventInsideElementArea(ship, mouseEvent))
+            if (AccessibleHandler.eventInsideElementArea(ship, mouseEvent))
             {
                 return ship;
             }
