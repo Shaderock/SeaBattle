@@ -46,17 +46,17 @@ public class AccessibleHandler
         }
     }
 
-    private static void checkTiles(PlacingHandler placingHandler, Ship focusedShip, Tile placeTile)
+    private static void checkTiles(PlacingHandler placingHandler, Ship focusedShip, Tile tile)
     {
         if (focusedShip.isHorizontal())
         {
-            if (10 - focusedShip.getSize() >= placeTile.getColumn() &&
-                    checkNeighboringTiles(placingHandler, focusedShip, placeTile))
+            if (10 - focusedShip.getSize() >= tile.getColumn() &&
+                    checkNeighboringTiles(placingHandler, focusedShip, tile))
             {
                 for (int i = 0; i < focusedShip.getSize(); i++)
                 {
                     PlaceTile placeTileToHighlight =
-                            (PlaceTile) placingHandler.getTilesMap().get(placeTile.getRow()).get(placeTile.getColumn() + i);
+                            (PlaceTile) placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
                     placeTileToHighlight.onHighlight();
                     placingHandler.addFocusedTile(placeTileToHighlight);
                 }
@@ -64,13 +64,13 @@ public class AccessibleHandler
         }
         else
         {
-            if (10 - focusedShip.getSize() >= placeTile.getRow() &&
-                    checkNeighboringTiles(placingHandler, focusedShip, placeTile))
+            if (10 - focusedShip.getSize() >= tile.getRow() &&
+                    checkNeighboringTiles(placingHandler, focusedShip, tile))
             {
                 for (int i = 0; i < focusedShip.getSize(); i++)
                 {
                     PlaceTile placeTileToHighlight =
-                            (PlaceTile) placingHandler.getTilesMap().get(placeTile.getRow() + i).get(placeTile.getColumn());
+                            (PlaceTile) placingHandler.getTilesMap().get(tile.getRow() + i).get(tile.getColumn());
                     placeTileToHighlight.onHighlight();
                     placingHandler.addFocusedTile(placeTileToHighlight);
                 }
@@ -80,21 +80,21 @@ public class AccessibleHandler
 
     private static void unHighlightTiles(PlacingHandler placingHandler)
     {
-        for (Tile anotherPlaceTile : placingHandler.getPlaceTiles())
+        for (Tile anotherTile : placingHandler.getPlaceTiles())
         {
-            PlaceTile placeTile = (PlaceTile) anotherPlaceTile;
+            PlaceTile placeTile = (PlaceTile) anotherTile;
             placeTile.onUnHighlight();
         }
         placingHandler.getFocusedPlaceTiles().clear();
     }
 
-    private static boolean checkNeighboringTiles(PlacingHandler placingHandler, Ship focusedShip, Tile placeTile)
+    private static boolean checkNeighboringTiles(PlacingHandler placingHandler, Ship focusedShip, Tile tile)
     {
         boolean[][] map = placingHandler.getBattleArea();
 
         for (int i = 0; i < focusedShip.getSize(); i++)
         {
-            if (placeTile.getColumn() + i > 9)
+            if (tile.getColumn() + i > 9)
             {
                 continue;
             }
@@ -102,11 +102,11 @@ public class AccessibleHandler
 
             if (focusedShip.isHorizontal())
             {
-                placeTileToCheck = placingHandler.getTilesMap().get(placeTile.getRow()).get(placeTile.getColumn() + i);
+                placeTileToCheck = placingHandler.getTilesMap().get(tile.getRow()).get(tile.getColumn() + i);
             }
             else
             {
-                placeTileToCheck = placingHandler.getTilesMap().get(placeTile.getRow() + i).get(placeTile.getColumn());
+                placeTileToCheck = placingHandler.getTilesMap().get(tile.getRow() + i).get(tile.getColumn());
             }
 
             if (tileIsOccupied(placeTileToCheck.getRow(), placeTileToCheck.getColumn(), map))

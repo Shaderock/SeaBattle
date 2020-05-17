@@ -2,12 +2,12 @@ package sea_battle.scenes.settings;
 
 import javafx.scene.input.MouseEvent;
 import sea_battle.business_logic.SceneType;
-import sea_battle.business_logic.controller.fxml.FXMLController;
+import sea_battle.business_logic.controllers.Controller;
 
-public class SettingsController extends FXMLController
+public class SettingsController extends Controller
 {
-    public void moveToMainMenu(MouseEvent mouseEvent) throws Exception
+    public void moveToMainMenu(MouseEvent mouseEvent)
     {
-        getSceneChanger().setScene(SceneType.MAIN);
+        setFXMLScene(SceneType.MAIN);
     }
 }

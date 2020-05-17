@@ -1,7 +1,7 @@
 package sea_battle;
 
 import javafx.stage.Stage;
-import sea_battle.business_logic.controller.custom.CustomController;
+import sea_battle.business_logic.controllers.OnInitializeListener;
 import sea_battle.business_logic.game.IPlayer;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ public class Context
 {
     private static final Context instance = new Context();
 
-    private final ArrayList<CustomController> customControllers;
+    private final ArrayList<OnInitializeListener> onInitializeListeners;
 
     private static Stage stage;
 
@@ -18,7 +18,7 @@ public class Context
 
     private Context()
     {
-        customControllers = new ArrayList<>();
+        onInitializeListeners = new ArrayList<>();
         players = new ArrayList<>();
     }
 
@@ -32,14 +32,14 @@ public class Context
         Context.stage = stage;
     }
 
-    public void addCustomController(CustomController customController)
+    public void addOnInitializeListener(OnInitializeListener onInitializeListener)
     {
-        customControllers.add(customController);
+        onInitializeListeners.add(onInitializeListener);
     }
 
-    public ArrayList<CustomController> getCustomControllers()
+    public ArrayList<OnInitializeListener> getOnInitializeListeners()
     {
-        return customControllers;
+        return onInitializeListeners;
     }
 
     public void addPlayer(IPlayer player)

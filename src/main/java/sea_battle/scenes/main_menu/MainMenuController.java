@@ -3,20 +3,20 @@ package sea_battle.scenes.main_menu;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import sea_battle.business_logic.SceneType;
-import sea_battle.business_logic.controller.fxml.FXMLController;
+import sea_battle.business_logic.controllers.Controller;
 
-public class MainMenuController extends FXMLController
+public class MainMenuController extends Controller
 {
     public Button settingsBtn;
 
-    public void moveToSettings(MouseEvent mouseEvent) throws Exception
+    public void moveToSettings(MouseEvent mouseEvent)
     {
-        getSceneChanger().setScene(SceneType.SETTINGS);
+        setFXMLScene(SceneType.SETTINGS);
     }
 
-    public void moveToGameChoice(MouseEvent mouseEvent) throws Exception
+    public void moveToGameChoice(MouseEvent mouseEvent)
     {
-        getSceneChanger().setScene(SceneType.GAME_TYPE_CHOICE);
+        setFXMLScene(SceneType.GAME_TYPE_CHOICE);
     }
 }
 

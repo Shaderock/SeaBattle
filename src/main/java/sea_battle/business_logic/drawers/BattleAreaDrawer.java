@@ -27,7 +27,6 @@ public class BattleAreaDrawer implements IDrawer
                 tileDrawer.setFillColor(Color.WHITESMOKE);
                 tileDrawer.setStrokeColor(Color.DARKGRAY);
 
-//                PlaceTile placeTile = (PlaceTile) tileDrawer.draw();
                 Tile tile = (Tile) tileDrawer.draw();
                 tile.setColumn(x);
                 tile.setRow(y);

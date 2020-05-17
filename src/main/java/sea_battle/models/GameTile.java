@@ -17,8 +17,7 @@ public class GameTile
     @Override
     public void onMiss()
     {
-//        setStroke(Color.YELLOW);
-        setFill(Color.YELLOW);
+        setFill(Color.DARKORANGE);
         isShot = true;
     }
 
@@ -26,7 +25,6 @@ public class GameTile
     public void onHit()
     {
         setFill(Color.BLACK);
-//        setStroke(Color.BLACK);
         isShot = true;
     }
 

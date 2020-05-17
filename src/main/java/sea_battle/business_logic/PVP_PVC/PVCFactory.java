@@ -2,62 +2,74 @@ package sea_battle.business_logic.PVP_PVC;
 
 import sea_battle.Context;
 import sea_battle.business_logic.SceneType;
-import sea_battle.business_logic.controller.ControllerType;
-import sea_battle.business_logic.controller.IController;
-import sea_battle.business_logic.controller.custom.CustomController;
-import sea_battle.business_logic.controller.custom.OnInitializeListener;
-import sea_battle.business_logic.controller.custom.game.PVCGameController;
-import sea_battle.business_logic.controller.custom.game.PVPGameController;
-import sea_battle.business_logic.controller.custom.placing.PVCPlacingController;
-import sea_battle.business_logic.scene_changer.ISceneChanger;
-import sea_battle.business_logic.scene_changer.InitializingSceneChanger;
-import sea_battle.business_logic.scene_changer.SceneChangerType;
-import sea_battle.business_logic.scene_loader.ISceneLoader;
-import sea_battle.business_logic.scene_loader.custom.PVCGameLoader;
-import sea_battle.business_logic.scene_loader.custom.PVCPlacingLoader;
+import sea_battle.business_logic.controllers.ControllerType;
+import sea_battle.business_logic.controllers.IController;
+import sea_battle.business_logic.controllers.OnInitializeListener;
+import sea_battle.business_logic.controllers.game.PVCGameController;
+import sea_battle.business_logic.controllers.placing.PVCPlacingController;
+import sea_battle.business_logic.scene_changers.ISceneChanger;
+import sea_battle.business_logic.scene_changers.InitializingSceneChanger;
+import sea_battle.business_logic.scene_loaders.ISceneLoader;
+import sea_battle.business_logic.scene_loaders.custom.PVCGameLoader;
+import sea_battle.business_logic.scene_loaders.custom.PVCPlacingLoader;
 
 public class PVCFactory extends Factory
 {
     @Override
     public IController buildController(ControllerType controllerType)
     {
-        if (controllerType == ControllerType.PVC_PLACING)
+        switch (controllerType)
         {
-            PVCPlacingController pvcPlacingController = new PVCPlacingController();
-            pvcPlacingController.setFactory(this);
-            return pvcPlacingController;
-        }
-        else
-        {
-            return new PVCGameController();
+            case GAME:
+                return new PVCGameController();
+            case PLACING:
+                return new PVCPlacingController();
+            default:
+                return null;
         }
     }
 
     @Override
     public ISceneLoader buildSceneLoader(SceneType sceneType)
     {
-        if (sceneType == SceneType.SHIPS_PLACING_PVC)
+        switch (sceneType)
         {
-            return new PVCPlacingLoader();
-        }
-        else
-        {
-            return new PVCGameLoader();
+            case GAME:
+                return new PVCGameLoader();
+            case SHIPS_PLACING:
+                return new PVCPlacingLoader();
+            default:
+                return null;
         }
     }
 
     @Override
-    public ISceneChanger buildSceneChanger(SceneChangerType sceneChangerType)
+    public ISceneChanger buildSceneChanger(SceneType sceneType)
     {
-        InitializingSceneChanger initializingSceneChanger = getInitializingSceneChanger();
+        InitializingSceneChanger initializingSceneChanger = getInitializingSceneChanger(sceneType);
 
-        for (CustomController customController : Context.getInstance().getCustomControllers())
+        switch (sceneType)
         {
-            if (customController instanceof PVPGameController)
-            {
-                initializingSceneChanger.addOnInitializeListener((OnInitializeListener) customController);
+            case GAME:
+                for (OnInitializeListener onInitializeListener : Context.getInstance().getOnInitializeListeners())
+                {
+                    if (onInitializeListener instanceof PVCGameController)
+                    {
+                        initializingSceneChanger.addOnInitializeListener(onInitializeListener);
+                    }
+                }
                 break;
-            }
+            case SHIPS_PLACING:
+                for (OnInitializeListener onInitializeListener : Context.getInstance().getOnInitializeListeners())
+                {
+                    if (onInitializeListener instanceof PVCPlacingController)
+                    {
+                        initializingSceneChanger.addOnInitializeListener(onInitializeListener);
+                    }
+                }
+                break;
+            default:
+                break;
         }
 
         return initializingSceneChanger;

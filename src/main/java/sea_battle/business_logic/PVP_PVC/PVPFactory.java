@@ -2,63 +2,77 @@ package sea_battle.business_logic.PVP_PVC;
 
 import sea_battle.Context;
 import sea_battle.business_logic.SceneType;
-import sea_battle.business_logic.controller.ControllerType;
-import sea_battle.business_logic.controller.IController;
-import sea_battle.business_logic.controller.custom.CustomController;
-import sea_battle.business_logic.controller.custom.OnInitializeListener;
-import sea_battle.business_logic.controller.custom.game.PVPGameController;
-import sea_battle.business_logic.controller.custom.placing.PVPPlacingController;
-import sea_battle.business_logic.scene_changer.ISceneChanger;
-import sea_battle.business_logic.scene_changer.InitializingSceneChanger;
-import sea_battle.business_logic.scene_changer.SceneChangerType;
-import sea_battle.business_logic.scene_loader.ISceneLoader;
-import sea_battle.business_logic.scene_loader.custom.PVPGameLoader;
-import sea_battle.business_logic.scene_loader.custom.PVPPlacingLoader;
+import sea_battle.business_logic.controllers.ControllerType;
+import sea_battle.business_logic.controllers.IController;
+import sea_battle.business_logic.controllers.OnInitializeListener;
+import sea_battle.business_logic.controllers.game.PVPGameController;
+import sea_battle.business_logic.controllers.placing.PVPPlacingController;
+import sea_battle.business_logic.scene_changers.ISceneChanger;
+import sea_battle.business_logic.scene_changers.InitializingSceneChanger;
+import sea_battle.business_logic.scene_loaders.ISceneLoader;
+import sea_battle.business_logic.scene_loaders.custom.PVPGameLoader;
+import sea_battle.business_logic.scene_loaders.custom.PVPPlacingLoader;
 
 public class PVPFactory extends Factory
 {
     @Override
     public IController buildController(ControllerType controllerType)
     {
-        if (controllerType == ControllerType.PVP_PLACING)
+        switch (controllerType)
         {
-            PVPPlacingController pvpPlacingController = new PVPPlacingController();
-            pvpPlacingController.setFactory(this);
-            return pvpPlacingController;
-        }
-        else
-        {
-            return new PVPGameController();
+            case GAME:
+                return new PVPGameController();
+            case PLACING:
+                return new PVPPlacingController();
+            default:
+                return null;
         }
     }
 
     @Override
     public ISceneLoader buildSceneLoader(SceneType sceneType)
     {
-        if (sceneType == SceneType.SHIPS_PLACING_PVP)
+        switch (sceneType)
         {
-            return new PVPPlacingLoader();
-        }
-        else
-        {
-            return new PVPGameLoader();
+            case GAME:
+                return new PVPGameLoader();
+            case SHIPS_PLACING:
+                return new PVPPlacingLoader();
+            default:
+                return null;
         }
     }
 
     @Override
-    public ISceneChanger buildSceneChanger(SceneChangerType sceneChangerType)   // TODO: refactor
+    public ISceneChanger buildSceneChanger(SceneType sceneType)
     {
-        InitializingSceneChanger initializingSceneChanger = getInitializingSceneChanger();
+        InitializingSceneChanger initializingSceneChanger = getInitializingSceneChanger(sceneType);
 
-        for (CustomController customController : Context.getInstance().getCustomControllers())
+        switch (sceneType)
         {
-            if (customController instanceof PVPGameController)
-            {
-                initializingSceneChanger.addOnInitializeListener((OnInitializeListener) customController);
+            case GAME:
+                for (OnInitializeListener onInitializeListener : Context.getInstance().getOnInitializeListeners())
+                {
+                    if (onInitializeListener instanceof PVPGameController)
+                    {
+                        initializingSceneChanger.addOnInitializeListener(onInitializeListener);
+                    }
+                }
                 break;
-            }
+            case SHIPS_PLACING:
+                for (OnInitializeListener onInitializeListener : Context.getInstance().getOnInitializeListeners())
+                {
+                    if (onInitializeListener instanceof PVPPlacingController)
+                    {
+                        initializingSceneChanger.addOnInitializeListener(onInitializeListener);
+                    }
+                }
+                break;
+            default:
+                break;
         }
 
         return initializingSceneChanger;
     }
+
 }

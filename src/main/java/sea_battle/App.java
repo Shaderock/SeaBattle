@@ -6,16 +6,16 @@ import sea_battle.business_logic.PVP_PVC.IFactory;
 import sea_battle.business_logic.PVP_PVC.PVCFactory;
 import sea_battle.business_logic.PVP_PVC.PVPFactory;
 import sea_battle.business_logic.SceneType;
-import sea_battle.business_logic.controller.ControllerType;
-import sea_battle.business_logic.controller.custom.CustomController;
-import sea_battle.business_logic.scene_changer.ISceneChanger;
-import sea_battle.business_logic.scene_changer.SceneChangerFactory;
-import sea_battle.business_logic.scene_changer.SceneChangerType;
+import sea_battle.business_logic.controllers.ControllerType;
+import sea_battle.business_logic.controllers.OnInitializeListener;
+import sea_battle.business_logic.scene_changers.ISceneChanger;
+import sea_battle.business_logic.scene_changers.ISceneChangerFactory;
+import sea_battle.business_logic.scene_changers.SceneChangerFactory;
 
 public class App extends Application
 {
     @Override
-    public void start(final Stage primaryStage) throws Exception
+    public void start(final Stage primaryStage)
     {
         Context.setStage(primaryStage);
 
@@ -23,10 +23,7 @@ public class App extends Application
         primaryStage.setResizable(false);
         primaryStage.sizeToScene();
 
-        SceneChangerFactory sceneChangerFactory = new SceneChangerFactory();
-        ISceneChanger sceneChanger = sceneChangerFactory.buildSceneChanger(SceneChangerType.DEFAULT);
-
-        sceneChanger.setScene(SceneType.MAIN);
+        setScene(new SceneChangerFactory());
 
         initControllers();
     }
@@ -41,11 +38,24 @@ public class App extends Application
         Context context = Context.getInstance();
 
         IFactory factory = new PVPFactory();
-        context.addCustomController((CustomController) factory.buildController(ControllerType.PVP_PLACING));
-        context.addCustomController((CustomController) factory.buildController(ControllerType.PVP_GAME));
+        context.addOnInitializeListener((OnInitializeListener) factory.buildController(ControllerType.PLACING));
+        context.addOnInitializeListener((OnInitializeListener) factory.buildController(ControllerType.GAME));
 
         factory = new PVCFactory();
-        context.addCustomController((CustomController) factory.buildController(ControllerType.PVC_PLACING));
-        context.addCustomController((CustomController) factory.buildController(ControllerType.PVC_GAME));
+        context.addOnInitializeListener((OnInitializeListener) factory.buildController(ControllerType.PLACING));
+        context.addOnInitializeListener((OnInitializeListener) factory.buildController(ControllerType.GAME));
+    }
+
+    private void setScene(ISceneChangerFactory sceneChangerFactory)
+    {
+        ISceneChanger sceneChanger = sceneChangerFactory.buildSceneChanger(SceneType.MAIN);
+        try
+        {
+            sceneChanger.setScene();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -7,7 +7,6 @@ import java.util.Random;
 public class Game
         implements IGame
 {
-    private ArrayList<IPlayer> players;
     private PlayerNumber turn;
     private ShootActionListener listener;
 
@@ -150,12 +149,6 @@ public class Game
     }
 
     @Override
-    public void setPlayers(ArrayList<IPlayer> players)
-    {
-        this.players = players;
-    }
-
-    @Override
     public PlayerNumber randomFirstTurn()
     {
         if (new Random().nextBoolean())
@@ -165,27 +158,6 @@ public class Game
         else
         {
             turn = PlayerNumber.TWO;
-        }
-
-        return turn;
-    }
-
-    @Override
-    public PlayerNumber getTurn()
-    {
-        return turn;
-    }
-
-    @Override
-    public PlayerNumber nextTurn()
-    {
-        if (turn == PlayerNumber.ONE)
-        {
-            turn = PlayerNumber.TWO;
-        }
-        else
-        {
-            turn = PlayerNumber.ONE;
         }
 
         return turn;

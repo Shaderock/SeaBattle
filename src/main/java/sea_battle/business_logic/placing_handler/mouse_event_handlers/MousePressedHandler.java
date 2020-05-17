@@ -33,7 +33,6 @@ public class MousePressedHandler extends MouseEventHandler
 
         AccessibleHandler.removeShipPlacing(placingHandler.getBattleArea(), pressedShip);
 
-//        pressedShip.onHighlight();
         if (pressedShip.isShowingRotateWarning())
         {
             pressedShip.removeRotateWarning();

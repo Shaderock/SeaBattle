@@ -117,10 +117,10 @@ public class RotateClickedHandler implements IMouseEventHandler
         return tile;
     }
 
-    private void placeShip(Ship ship, Tile placeTile)
+    private void placeShip(Ship ship, Tile tile)
     {
         ship.setPlaced(true);
-        ship.relocate(placeTile.getMinX(), placeTile.getMinY());
+        ship.relocate(tile.getMinX(), tile.getMinY());
         ship.switchOrientation();
     }
 

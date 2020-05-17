@@ -11,14 +11,14 @@ import java.util.ArrayList;
 
 public class Converter
 {
-    public void tileArrayTo2DArray(ArrayList<Tile> placeTiles, ArrayList<ArrayList<Tile>> tilesMap)
+    public void tileArrayTo2DArray(ArrayList<Tile> tiles, ArrayList<ArrayList<Tile>> tilesMap)
     {
         for (int i = 0; i < 10; i++)
         {
             tilesMap.add(new ArrayList<>());
             for (int j = 0; j < 10; j++)
             {
-                tilesMap.get(i).add(placeTiles.get(i + j * 10));
+                tilesMap.get(i).add(tiles.get(i + j * 10));
             }
         }
     }
@@ -37,14 +37,14 @@ public class Converter
 
     private ArrayList<Tile> getTiles(Group battleArea)
     {
-        ArrayList<Tile> placeTiles = new ArrayList<>();
+        ArrayList<Tile> tiles = new ArrayList<>();
 
         for (Node node : battleArea.getChildren())
         {
-            placeTiles.add((Tile) node);
+            tiles.add((Tile) node);
         }
 
-        return placeTiles;
+        return tiles;
     }
 
     public ArrayList<Ship> getShips(Parent root)
